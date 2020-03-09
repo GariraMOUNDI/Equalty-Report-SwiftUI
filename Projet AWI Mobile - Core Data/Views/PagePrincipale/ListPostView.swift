@@ -26,7 +26,7 @@ struct ListPostView: View {
     var body: some View {
         List{
             ForEach(postsToPrint) { post in
-                PostView(post: post, comment: false).padding(.top, 10)
+                PostView(post: post, commentaire: Commentaire(), estUnCommentaire: false).padding(.top, 10)
                 }
                 Spacer()
             }.padding(.horizontal, 10).navigationBarTitle(title)

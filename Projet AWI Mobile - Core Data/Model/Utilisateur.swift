@@ -11,11 +11,11 @@ import SwiftUI
 struct Utilisateur : Codable {
     var token : String
     var data : Data
-//    var id : String{
-//        get{
-//            return data._id
-//        }
-//    }
+    var id : String{
+        get{
+            return data._id
+        }
+    }
 }
 
 struct Data : Codable {

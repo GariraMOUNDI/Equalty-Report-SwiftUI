@@ -18,8 +18,10 @@ struct CommentaireView: View {
             Text("Commentaires")
                 .fontWeight(.medium).bold().font(.largeTitle).padding(.top, 20).padding(.leading, 20)
             List{
-                PostView(post: post, comment: true)
-                // Ici il faut afficher les commentaires en les récupérant de la base de données
+                PostView(post: post, commentaire: Commentaire(), estUnCommentaire: false, comment: true)
+                ForEach(self.appState.commentaires) { commentaire in
+                    PostView(post: Post(), commentaire: commentaire, estUnCommentaire: true, comment: true)
+                }
                 HStack{
                     TextField("Commenter", text: self.$commentaire)
                         .padding(20)
@@ -33,6 +35,7 @@ struct CommentaireView: View {
                             .font(.system(size: 25)).foregroundColor(Color.blue)
                     }.onTapGesture {
                         print("commenter")
+                        // Envoyez une requete d'ajout vers la base de données et récupéré les infos
                     }
                 }
             }

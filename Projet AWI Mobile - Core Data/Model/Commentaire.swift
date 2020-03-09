@@ -7,3 +7,18 @@
 //
 
 import Foundation
+
+class Commentaire : Identifiable, Codable {
+    
+    var id : String {   // Pour Identifiable
+        get {
+            return _id
+        }
+    }
+    var reactions : [String] = []
+    var _id: String = ""
+    var texte : String = ""
+    var createur : Createur!
+    var parentId : String = ""
+    
+}

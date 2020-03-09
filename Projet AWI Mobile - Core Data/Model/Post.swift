@@ -8,21 +8,19 @@
 
 import Foundation
 
-struct Post : Identifiable, Codable {
-    
+class Post : Identifiable, Codable {
     var id : String {   // Pour Identifiable
         get {
-            return _id 
+            return _id
         }
     }
     var reactions : [String] = []
     var _id: String = ""
     var texte : String = ""
-    var createur : Createur
-    
+    var createur : Createur!
 }
 
-struct Createur : Codable {
+class Createur : Codable {
     var _id : String = ""
     var pseudo : String = ""
 }

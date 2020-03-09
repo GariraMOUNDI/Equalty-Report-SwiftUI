@@ -11,18 +11,35 @@ import SwiftUI
 struct PostView: View {
     @EnvironmentObject var appState : AppState
     var post : Post
+    var commentaire : Commentaire
+    var estUnCommentaire : Bool
+    
     @State var com : Bool = false
-    var comment : Bool
+    var comment : Bool = false
     var imgGauche : Bool{
         get{
-            // Ici on doit coder la logique pour afficher l'image à gauche ou à droite
-            return true
+            if(estUnCommentaire){
+                if(self.appState.utilisateur.id == self.commentaire.createur._id){
+                    return false
+                }else{
+                    return true
+                }
+            }else{
+               return true
+            }
         }
     }
     var  imgDroite : Bool {
         get{
-            // Ici on doit coder la logique pour afficher l'image à gauche ou à droite
-            return false
+            if(estUnCommentaire){
+                if(self.appState.utilisateur.id == self.commentaire.createur._id){
+                    return true
+                }else{
+                    return false
+                }
+            }else{
+               return false
+            }
         }
     }
     var mode : HorizontalAlignment {
@@ -44,8 +61,13 @@ struct PostView: View {
                     Spacer()
                 }
                 VStack(alignment: mode){
-                    Text(post.createur.pseudo).bold()
-                    Text(post.texte)
+                    if(estUnCommentaire){
+                        Text(commentaire.createur.pseudo).bold()
+                        Text(commentaire.texte)
+                    }else{
+                        Text(post.createur.pseudo).bold()
+                        Text(post.texte)
+                    }
                 }.shadow(radius: 1,y:1)
                 if (imgDroite){
                     Image("Flame").resizable().frame(width: 40.0, height: 40.0).cornerRadius(10)
@@ -56,7 +78,15 @@ struct PostView: View {
                 HStack(){
                     Spacer()
                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
-                        Image(systemName: "hand.thumbsup").foregroundColor(Color.blue)
+                        HStack{
+                           Image(systemName: "hand.thumbsup").foregroundColor(Color.blue)
+                            if(estUnCommentaire){
+                                Text("\(commentaire.reactions.count)").foregroundColor(Color.blue)
+                            }else{
+                                Text("\(post.reactions.count)").foregroundColor(Color.blue)
+                            }
+                        }
+                        
                     }.onTapGesture {
                         print("J'aime")
                     }
@@ -65,6 +95,7 @@ struct PostView: View {
                     if(!comment){
                         Button(action: {
                             self.com = true
+                            self.appState.getCommentaires(parentId : self.post.id)
                         }){
                             Image(systemName: "message.circle").foregroundColor(Color.blue)
                         }.sheet(isPresented: self.$com , onDismiss: {
