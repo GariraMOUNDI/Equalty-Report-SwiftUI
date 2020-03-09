@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Post : Identifiable, Codable {
+class Post : Identifiable, Codable{
     var id : String {   // Pour Identifiable
         get {
             return _id
@@ -18,7 +18,8 @@ class Post : Identifiable, Codable {
     var _id: String = ""
     var texte : String = ""
     var createur : Createur!
-    var numCommentaires : Int!
+    var numCommentaires : Int = 0
+    var dateCreation : String = ""
 }
 
 class Createur : Codable {

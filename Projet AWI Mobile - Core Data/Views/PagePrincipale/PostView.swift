@@ -13,7 +13,6 @@ struct PostView: View {
     @State var post : Post
     @State var commentaire : Commentaire
     var estUnCommentaire : Bool
-    
     @State var com : Bool = false
     var comment : Bool = false
     var imgGauche : Bool{
@@ -52,6 +51,7 @@ struct PostView: View {
         }
     }
     var size : CGFloat
+    
     var body: some View {
         VStack(alignment : mode){
             HStack(alignment: .top){
@@ -90,9 +90,20 @@ struct PostView: View {
                             }
                         }
                     }.onTapGesture {
-                        if(self.estUnCommentaire){ self.commentaire.reactions.append(self.appState.utilisateur.id)
+                        if(self.estUnCommentaire){
+                            self.commentaire.reactions.append(self.appState.utilisateur.id)
+                            self.appState.ajouterLike(postToModify: self.commentaire)
+//                            self.appState.commentaires.filter({
+//                                return self.commentaire.id == $0.id
+//                            })[0].reactions.append(self.appState.utilisateur.id)
+                            
                             // Ici il faut l'enregistrer dans la base de données
-                        }else{ self.post.reactions.append(self.appState.utilisateur.id)
+                        }else{
+                            self.post.reactions.append(self.appState.utilisateur.id)
+                            self.appState.ajouterLike(postToModify: self.post)
+//                            self.appState.posts.filter({
+//                                return self.post.id == $0.id
+//                            })[0].reactions.append(self.appState.utilisateur.id)
                             // Ici il faut l'enregistrer dans la base de données
                         }
                         print("J'aime")
@@ -107,7 +118,7 @@ struct PostView: View {
                             Image(systemName: "message.circle").foregroundColor(Color.blue)
                         }.sheet(isPresented: self.$com , onDismiss: {
                             self.com = false
-                            self.appState.getPost()
+                            //self.appState.getPost()
                         }, content: {
                             CommentaireView(post: self.post, commentaire: "").environmentObject(self.appState)
                         })
