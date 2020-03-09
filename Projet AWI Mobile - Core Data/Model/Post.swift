@@ -18,6 +18,7 @@ class Post : Identifiable, Codable {
     var _id: String = ""
     var texte : String = ""
     var createur : Createur!
+    var numCommentaires : Int!
 }
 
 class Createur : Codable {

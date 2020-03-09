@@ -15,22 +15,7 @@ class AppState : ObservableObject {
     @Published var modifierUtilisateur : Bool = false
     @Published var commentaires : [Commentaire] = []
     
-    func configureState(){
-        self.parsePost{
-            /*
-            for p in $0 {
-                self.posts.append(p)
-            }*/
-            self.posts = $0
-        }
-    }
-
-    func verifierInfo(pseudo : String, mdp : String){
-        print(pseudo, mdp)
-    }
-    
-    func parsePost(completion: @escaping ([Post]) -> ()){
-        
+    func getPost(){
         let url = URL(string: "http://project-awi-api.herokuapp.com/posts")!
         
         URLSession.shared.dataTask(with: url){data,_,_  in
@@ -38,11 +23,11 @@ class AppState : ObservableObject {
                 if let posts = try? JSONDecoder().decode([Post].self, from: data) {
                     DispatchQueue.main.async {
                         print(posts[0].id)
-                        completion(posts)
+                        self.posts = posts
                     }
                     return
                 }else{
-                    print("No data !!!")
+                    print("No data posts !!!")
                 }
             }
             print("Erreur !!!")
@@ -50,6 +35,7 @@ class AppState : ObservableObject {
 
     }
     
+    // Permet de recuperer tous les utilisateurs
     func getUtilisateur(_ pseudo: String, _ mdp : String){
         let url = URL(string: "http://project-awi-api.herokuapp.com/auth")!
         
@@ -79,6 +65,7 @@ class AppState : ObservableObject {
          
     }
     
+    // Permet de recuperer tous les commentaires
     func getCommentaires(parentId : String) -> [Commentaire]{
         let url = URL(string: "http://project-awi-api.herokuapp.com/commentaires/\(parentId)")!
         
@@ -90,12 +77,42 @@ class AppState : ObservableObject {
                     }
                     return
                 }else{
-                    print("No data !!!")
+                    print("No data commentaires !!!")
                 }
             }
-            print("Erreur !!!")
+            print("Erreur commentaires !!!")
         }.resume()
     return []
     }
     
+    // Permet de creer un commentaire
+    func creerCommentaire(createur: String, parentId: String, texte: String){
+        let url = URL(string: "http://project-awi-api.herokuapp.com/commentaires")!
+        
+        let body : [String : String] = ["createur" : createur, "parentId" : parentId, "texte": texte]
+        print(body)
+        let finalBody = try! JSONSerialization.data(withJSONObject: body)
+        
+        var request = URLRequest(url: url)
+        request.httpBody = finalBody
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(self.utilisateur.token)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-type")
+        
+        URLSession.shared.dataTask(with: request){data,_,_  in
+            if let data = data {
+                print(data)
+                if let comment = try? JSONDecoder().decode(Commentaire.self, from: data) {
+                   DispatchQueue.main.async {
+                        print(comment)
+                        self.commentaires.append(comment)
+                    }
+                        return
+                }else{
+                    print("Echec de création commentaire !!!")
+                }
+            }
+        print("Erreur !!!")
+        }.resume()
+    }
 }

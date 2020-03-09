@@ -10,8 +10,8 @@ import SwiftUI
 
 struct PostView: View {
     @EnvironmentObject var appState : AppState
-    var post : Post
-    var commentaire : Commentaire
+    @State var post : Post
+    @State var commentaire : Commentaire
     var estUnCommentaire : Bool
     
     @State var com : Bool = false
@@ -51,11 +51,12 @@ struct PostView: View {
             }
         }
     }
+    var size : CGFloat
     var body: some View {
         VStack(alignment : mode){
             HStack(alignment: .top){
                 if (imgGauche){
-                    Image("Flame").resizable().frame(width: 40.0, height: 40.0).cornerRadius(10)
+                    Image("Flame").resizable().frame(width: size, height: size).cornerRadius(10)
                 }
                 if (imgDroite){
                     Spacer()
@@ -70,14 +71,16 @@ struct PostView: View {
                     }
                 }.shadow(radius: 1,y:1)
                 if (imgDroite){
-                    Image("Flame").resizable().frame(width: 40.0, height: 40.0).cornerRadius(10)
+                    Image("Flame").resizable().frame(width: size, height: size).cornerRadius(10)
                 }
             }
             
             if(self.appState.isConnected){
                 HStack(){
                     Spacer()
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
+                    Button(action: {
+                        
+                    }) {
                         HStack{
                            Image(systemName: "hand.thumbsup").foregroundColor(Color.blue)
                             if(estUnCommentaire){
@@ -86,8 +89,12 @@ struct PostView: View {
                                 Text("\(post.reactions.count)").foregroundColor(Color.blue)
                             }
                         }
-                        
                     }.onTapGesture {
+                        if(self.estUnCommentaire){ self.commentaire.reactions.append(self.appState.utilisateur.id)
+                            // Ici il faut l'enregistrer dans la base de données
+                        }else{ self.post.reactions.append(self.appState.utilisateur.id)
+                            // Ici il faut l'enregistrer dans la base de données
+                        }
                         print("J'aime")
                     }
                     Spacer()
@@ -100,9 +107,11 @@ struct PostView: View {
                             Image(systemName: "message.circle").foregroundColor(Color.blue)
                         }.sheet(isPresented: self.$com , onDismiss: {
                             self.com = false
+                            self.appState.getPost()
                         }, content: {
                             CommentaireView(post: self.post, commentaire: "").environmentObject(self.appState)
                         })
+                        Text("\(self.post.numCommentaires)").foregroundColor(Color.blue)
                     }
                     Spacer()
                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {

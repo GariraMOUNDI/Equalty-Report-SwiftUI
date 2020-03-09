@@ -18,9 +18,9 @@ struct CommentaireView: View {
             Text("Commentaires")
                 .fontWeight(.medium).bold().font(.largeTitle).padding(.top, 20).padding(.leading, 20)
             List{
-                PostView(post: post, commentaire: Commentaire(), estUnCommentaire: false, comment: true)
+                PostView(post: post, commentaire: Commentaire(), estUnCommentaire: false, comment: true, size: 40)
                 ForEach(self.appState.commentaires) { commentaire in
-                    PostView(post: Post(), commentaire: commentaire, estUnCommentaire: true, comment: true)
+                    PostView(post: Post(), commentaire: commentaire, estUnCommentaire: true, comment: true, size: 30)
                 }
                 HStack{
                     TextField("Commenter", text: self.$commentaire)
@@ -34,8 +34,9 @@ struct CommentaireView: View {
                         Image(systemName: "tray.and.arrow.up.fill")
                             .font(.system(size: 25)).foregroundColor(Color.blue)
                     }.onTapGesture {
-                        print("commenter")
-                        // Envoyez une requete d'ajout vers la base de données et récupéré les infos
+                        self.appState.creerCommentaire(createur: self.appState.utilisateur.id, parentId: self.post.id, texte: self.commentaire)
+                        self.commentaire = ""
+                        print("Commenter")
                     }
                 }
             }

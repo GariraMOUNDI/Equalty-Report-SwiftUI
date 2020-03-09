@@ -77,7 +77,7 @@ struct BoutonEcrirePost : View {
             VStack{
                 if(details){
                     OneButton(image: "plus.circle.fill", postBouton: false)
-                    // OneButton(image: "plus.circle.fill", postBouton: false)
+                    OneButton(image: "pencil.circle.fill", postBouton: false)
                 }
                 Button(action: {
                     withAnimation{
@@ -85,18 +85,25 @@ struct BoutonEcrirePost : View {
                     }
                 }, label: {
                     if(details){
-                        Image(systemName: "plus.app").resizable()
-                        .frame(width: 50, height: 50)
+                        ZStack{
+                            Circle()
+                                .foregroundColor(Color.blue)
+                            .frame(width: 50, height: 50)
+                            Image(systemName: "minus.magnifyingglass").resizable()
+                                .frame(width: 35, height: 35).foregroundColor(Color.white)
+                        }
                     }else{
-                        Image(systemName: "plus.circle.fill").resizable()
-                        .frame(width: 50, height: 50)
+                        ZStack{
+                            Circle()
+                                .foregroundColor(Color.blue)
+                            .frame(width: 50, height: 50)
+                            Image(systemName: "plus.magnifyingglass").resizable()
+                                .frame(width: 35, height: 35).foregroundColor(Color.white)
+                        }
                     }
                 })
             }
-            
         }
-            
-        
     }
 }
 
@@ -121,7 +128,7 @@ struct OneButton : View {
                 }, content: {
                     EcrirePostView(texte: "", postBouton: self.$postBouton)
                 })
-        }.transition(.move(edge: .trailing))
+        }.transition(.move(edge: .top))
     }
 }
 /*
