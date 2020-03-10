@@ -13,6 +13,7 @@ struct PostView: View {
     @State var post : Post
     @State var commentaire : Commentaire
     var estUnCommentaire : Bool
+    @State var aimer : Bool 
     @State var com : Bool = false
     var comment : Bool = false
     var imgGauche : Bool{
@@ -82,31 +83,47 @@ struct PostView: View {
                         
                     }) {
                         HStack{
-                           Image(systemName: "hand.thumbsup").foregroundColor(Color.blue)
+                            
                             if(estUnCommentaire){
-                                Text("\(commentaire.reactions.count)").foregroundColor(Color.blue)
+                                if (aimer){
+                                    Image(systemName: "hand.thumbsup.fill").foregroundColor(Color.red)
+                                    Text("\(commentaire.reactions.count)").foregroundColor(Color.red)
+                                }else{
+                                    Image(systemName: "hand.thumbsup").foregroundColor(Color.blue)
+                                    Text("\(commentaire.reactions.count)").foregroundColor(Color.blue)
+                                }
                             }else{
-                                Text("\(post.reactions.count)").foregroundColor(Color.blue)
+                                if (aimer){
+                                    Image(systemName: "hand.thumbsup.fill").foregroundColor(Color.red)
+                                    Text("\(post.reactions.count)").foregroundColor(Color.red)
+                                }else{
+                                    Image(systemName: "hand.thumbsup").foregroundColor(Color.blue)
+                                    Text("\(post.reactions.count)").foregroundColor(Color.blue)
+                                }
                             }
                         }
                     }.onTapGesture {
                         if(self.estUnCommentaire){
-                            self.commentaire.reactions.append(self.appState.utilisateur.id)
+                            self.aimer.toggle()
+                            if(self.aimer){
+                                self.commentaire.reactions.append(self.appState.utilisateur.id)
+                            }else{
+                                self.commentaire.reactions = self.commentaire.reactions.filter({
+                                    return $0 != self.appState.utilisateur.id
+                                })
+                            }
                             self.appState.ajouterLike(postToModify: self.commentaire)
-//                            self.appState.commentaires.filter({
-//                                return self.commentaire.id == $0.id
-//                            })[0].reactions.append(self.appState.utilisateur.id)
-                            
-                            // Ici il faut l'enregistrer dans la base de données
                         }else{
-                            self.post.reactions.append(self.appState.utilisateur.id)
+                            self.aimer.toggle()
+                            if(self.aimer){
+                                self.post.reactions.append(self.appState.utilisateur.id)
+                            }else{
+                                self.post.reactions = self.post.reactions.filter({
+                                    return $0 != self.appState.utilisateur.id
+                                })
+                            }
                             self.appState.ajouterLike(postToModify: self.post)
-//                            self.appState.posts.filter({
-//                                return self.post.id == $0.id
-//                            })[0].reactions.append(self.appState.utilisateur.id)
-                            // Ici il faut l'enregistrer dans la base de données
                         }
-                        print("J'aime")
                     }
                     Spacer()
                     
@@ -114,8 +131,7 @@ struct PostView: View {
                         Button(action: {
                             self.com = true
                             self.appState.getCommentaires(parentId : self.post.id)
-                        }){
-                            Image(systemName: "message.circle").foregroundColor(Color.blue)
+                        }){                            Image(systemName: "message.circle").foregroundColor(Color.blue)
                         }.sheet(isPresented: self.$com , onDismiss: {
                             self.com = false
                             //self.appState.getPost()

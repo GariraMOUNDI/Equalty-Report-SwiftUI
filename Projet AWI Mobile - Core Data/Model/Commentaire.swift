@@ -20,5 +20,6 @@ class Commentaire : Identifiable, Codable {
     var texte : String = ""
     var createur : Createur!
     var parentId : String = ""
+    var dateCreation : String = ""
     
 }

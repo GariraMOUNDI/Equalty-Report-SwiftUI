@@ -26,7 +26,7 @@ struct EcrirePostView: View {
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
                     .cornerRadius(10)
                 Button(action: {
-                    // On envoi une requete à la base de données pour obtenier l'id et ensuite on modifie la vue
+                    self.appState.creerCommentaireOuPost(createur: self.appState.utilisateur.id, parentId: "", texte: self.texte)
                     self.postBouton.toggle()
                 }){
                     Image(systemName: "tray.and.arrow.up.fill")

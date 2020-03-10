@@ -26,7 +26,9 @@ struct ListPostView: View {
     var body: some View {
         List{
             ForEach(postsToPrint) { post in
-                PostView(post: post, commentaire: Commentaire(), estUnCommentaire: false, size: 40).padding(.top, 10)
+                PostView(post: post, commentaire: Commentaire(), estUnCommentaire: false,
+                         aimer: post.reactions.contains(self.appState.utilisateur.id),
+                    size: 40).padding(.top, 10)
                 }
                 Spacer()
             }.padding(.horizontal, 10).navigationBarTitle(title)

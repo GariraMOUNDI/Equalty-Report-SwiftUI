@@ -86,10 +86,19 @@ class AppState : ObservableObject {
     }
     
     // Permet de creer un commentaire
-    func creerCommentaire(createur: String, parentId: String, texte: String){
-        let url = URL(string: "http://project-awi-api.herokuapp.com/commentaires")!
+    func creerCommentaireOuPost(createur: String, parentId: String, texte: String){
+        let chemin: String
+        let body : [String : String]
+        if(parentId == ""){
+            chemin = "posts"
+            body = ["createur" : createur, "texte": texte]
+        }else{
+            chemin = "commentaires"
+            body = ["createur" : createur, "parentId" : parentId, "texte": texte]
+        }
         
-        let body : [String : String] = ["createur" : createur, "parentId" : parentId, "texte": texte]
+        let url = URL(string: "http://project-awi-api.herokuapp.com/\(chemin)")!
+        
         let finalBody = try! JSONSerialization.data(withJSONObject: body)
         
         var request = URLRequest(url: url)
@@ -99,20 +108,31 @@ class AppState : ObservableObject {
         request.setValue("application/json", forHTTPHeaderField: "Content-type")
         
         URLSession.shared.dataTask(with: request){data,_,_  in
-            if let data = data {
-                print(data)
-                if let comment = try? JSONDecoder().decode(Commentaire.self, from: data) {
-                   DispatchQueue.main.async {
-                        print(comment)
-                        self.commentaires.append(comment)
+                if let data = data {
+                    print(data)
+                    if(parentId == ""){
+                        if let post = try? JSONDecoder().decode(Post.self, from: data) {
+                            DispatchQueue.main.async {
+                                 self.posts.insert(post, at: 0)
+                             }
+                                return
+                        }else{
+                            print("Echec de création de post !!!")
+                        }
+                    }else{
+                        if let commentaire = try? JSONDecoder().decode(Commentaire.self, from: data) {
+                            DispatchQueue.main.async {
+                                    self.commentaires.append(commentaire)
+                            }
+                                return
+                        }else{
+                            print("Echec de création de commentaire !!!")
+                        }
                     }
-                        return
                 }else{
-                    print("Echec de création commentaire !!!")
+                    print("Pas de commentaire ou post !!!")
                 }
-            }
-        print("Erreur !!!")
-            return
+            print("Erreur !!!")
         }.resume()
         
         
@@ -129,7 +149,6 @@ class AppState : ObservableObject {
     }
     
     func ajouterLike(postToModify: Any){
-        
         if let postToModify = postToModify as? Post{
             // Enregistrement dans la base de données
             let url = URL(string: "http://project-awi-api.herokuapp.com/posts/\(postToModify.id)")!
@@ -144,12 +163,7 @@ class AppState : ObservableObject {
             request.setValue("Bearer \(self.utilisateur.token)", forHTTPHeaderField: "Authorization")
             request.setValue("application/json", forHTTPHeaderField: "Content-type")
             
-            URLSession.shared.dataTask(with: request){data,_,_  in
-                if let data = data {
-                     print(data)
-             }
-            }.resume()
-            
+            URLSession.shared.dataTask(with: request).resume()
             
             // Modification de la vue
             var newPosts: [Post] = []
@@ -163,10 +177,20 @@ class AppState : ObservableObject {
             self.posts = newPosts
         }else{
             let commentaireToModify = postToModify as! Commentaire
-            
             //Enregistrement dans la base de données
+            let url = URL(string: "http://project-awi-api.herokuapp.com/commentaires/\(commentaireToModify.id)")!
             
-            // à coder
+            let body : [String : Any] = ["createur" : ["_id" : commentaireToModify.createur._id, "pseudo": commentaireToModify.createur.pseudo] , "texte": commentaireToModify.texte, "id": commentaireToModify.id, "dateCreation": commentaireToModify.dateCreation, "reactions": commentaireToModify.reactions]
+            
+            let finalBody = try! JSONSerialization.data(withJSONObject: body)
+            
+            var request = URLRequest(url: url)
+            request.httpBody = finalBody
+            request.httpMethod = "PATCH"
+            request.setValue("Bearer \(self.utilisateur.token)", forHTTPHeaderField: "Authorization")
+            request.setValue("application/json", forHTTPHeaderField: "Content-type")
+            
+            URLSession.shared.dataTask(with: request).resume()
             
             // Modification de la vue
             var newCommentaire: [Commentaire] = []
@@ -179,13 +203,5 @@ class AppState : ObservableObject {
             }
             self.commentaires = newCommentaire
         }
-    }
-    
-    func rafraichirCommentaire(){
-        var newCommentaire: [Commentaire] = []
-        commentaires.forEach{ commentaire in
-           newCommentaire.append(commentaire)
-        }
-        self.commentaires = newCommentaire
     }
 }

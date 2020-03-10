@@ -67,6 +67,7 @@ struct Acceuil: View {
 
 struct BoutonEcrirePost : View {
     @State var details : Bool = false
+    
     var body : some View {
         ZStack{
             if(!details){
@@ -109,6 +110,7 @@ struct BoutonEcrirePost : View {
 
 struct OneButton : View {
     var image : String
+    @EnvironmentObject var appState : AppState
     @State var postBouton : Bool
     
     var body : some View{
@@ -126,7 +128,7 @@ struct OneButton : View {
                 ,onDismiss: {
                     self.postBouton = false
                 }, content: {
-                    EcrirePostView(texte: "", postBouton: self.$postBouton)
+                    EcrirePostView(texte: "", postBouton: self.$postBouton).environmentObject(self.appState)
                 })
         }.transition(.move(edge: .top))
     }
