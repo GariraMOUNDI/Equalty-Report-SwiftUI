@@ -138,7 +138,7 @@ struct PostView: View {
                             self.com = false
                             //self.appState.getPost()
                         }, content: {
-                            CommentaireView(post: self.$post, commentaire: "").environmentObject(self.appState)
+                            CommentaireView(post: self.post, commentaire: "").environmentObject(self.appState)
                         })
                         Text("\(self.post.numCommentaires)").foregroundColor(Color.blue)
                     }
@@ -157,7 +157,7 @@ struct PostView: View {
                             )
                         }
                         let elementModifier : Any = self.estUnCommentaire ? self.commentaire : self.post
-                        // Il faut l'en registrer dans la base de données 
+                        // Il faut l'en registrer dans la base de données
                         self.appState.signalerPost(postToModify: elementModifier)
                     }
                     Spacer()
