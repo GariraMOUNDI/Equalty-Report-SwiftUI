@@ -8,8 +8,7 @@
 
 import Foundation
 
-class Commentaire : Identifiable, Codable {
-    
+struct Commentaire : Identifiable, Codable {
     var id : String {   // Pour Identifiable
         get {
             return _id
@@ -21,5 +20,6 @@ class Commentaire : Identifiable, Codable {
     var createur : Createur!
     var parentId : String = ""
     var dateCreation : String = ""
+    var signaler : [Signaler] = []
     
 }

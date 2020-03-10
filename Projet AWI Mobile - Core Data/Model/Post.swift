@@ -20,9 +20,16 @@ class Post : Identifiable, Codable{
     var createur : Createur!
     var numCommentaires : Int = 0
     var dateCreation : String = ""
+    var signaler : [Signaler]!
 }
 
-class Createur : Codable {
+struct Createur : Codable {
     var _id : String = ""
     var pseudo : String = ""
 }
+
+struct Signaler : Codable {
+    var createur : String = ""
+    var texte : String = ""
+}
+

@@ -20,6 +20,7 @@ class AppState : ObservableObject {
         
         URLSession.shared.dataTask(with: url){data,_,_  in
             if let data = data {
+                print(data)
                 if let posts = try? JSONDecoder().decode([Post].self, from: data) {
                     DispatchQueue.main.async {
                         print(posts[0].id)
@@ -166,15 +167,7 @@ class AppState : ObservableObject {
             URLSession.shared.dataTask(with: request).resume()
             
             // Modification de la vue
-            var newPosts: [Post] = []
-            posts.forEach{ post in
-                if( postToModify.id == post.id ){
-                    newPosts.append(postToModify)
-                }else{
-                    newPosts.append(post)
-                }
-            }
-            self.posts = newPosts
+            self.rafraichirPost(postToModify: postToModify)
         }else{
             let commentaireToModify = postToModify as! Commentaire
             //Enregistrement dans la base de données
@@ -193,15 +186,57 @@ class AppState : ObservableObject {
             URLSession.shared.dataTask(with: request).resume()
             
             // Modification de la vue
-            var newCommentaire: [Commentaire] = []
-            commentaires.forEach{ commentaire in
-                if( commentaireToModify.id == commentaire.id ){
-                    newCommentaire.append(commentaireToModify)
-                }else{
-                    newCommentaire.append(commentaire)
-                }
-            }
-            self.commentaires = newCommentaire
+            self.rafraichirCommentaire(commentaireToModify: commentaireToModify)
         }
+    }
+    
+    func estSignaler(post: Any) -> Bool{
+        var number : Int
+        if let post = post as? Post {
+            let signaler = post.signaler.filter({ return $0.createur == self.utilisateur.id })
+            number = signaler.count
+        }else{
+            let commentaire = post as! Commentaire
+            let signaler = commentaire.signaler.filter({ return $0.createur == self.utilisateur.id })
+            number = signaler.count
+        }
+        if (number == 0){
+            return false
+        }else{
+            return true
+        }
+    }
+    
+    func signalerPost(postToModify: Any){
+        if let postToModify = postToModify as? Post {
+            self.rafraichirPost(postToModify: postToModify)
+        }else{
+            let commentaireToModify = postToModify as! Commentaire
+            self.rafraichirCommentaire(commentaireToModify: commentaireToModify)
+        }
+    }
+    
+    func rafraichirPost(postToModify: Post){
+        var newPosts: [Post] = []
+        posts.forEach{ post in
+            if( post.id == postToModify.id ){
+                newPosts.append(postToModify)
+            }else{
+                newPosts.append(post)
+            }
+        }
+        self.posts = newPosts
+    }
+    
+    func rafraichirCommentaire(commentaireToModify: Commentaire){
+        var newCommentaire: [Commentaire] = []
+        commentaires.forEach{ commentaire in
+            if( commentaireToModify.id == commentaire.id ){
+                newCommentaire.append(commentaireToModify)
+            }else{
+                newCommentaire.append(commentaire)
+            }
+        }
+        self.commentaires = newCommentaire
     }
 }

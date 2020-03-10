@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		618D14B52413FDA700C0C069 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D14B42413FDA700C0C069 /* AppDelegate.swift */; };
 		618D14B72413FDA700C0C069 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D14B62413FDA700C0C069 /* SceneDelegate.swift */; };
-		618D14BA2413FDA700C0C069 /* Projet_AWI_Mobile___Core_Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 618D14B82413FDA700C0C069 /* Projet_AWI_Mobile___Core_Data.xcdatamodeld */; };
+		618D14BA2413FDA700C0C069 /* Projet_AWI_Mobile_-_Core_Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 618D14B82413FDA700C0C069 /* Projet_AWI_Mobile_-_Core_Data.xcdatamodeld */; };
 		618D14BE2413FDA900C0C069 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 618D14BD2413FDA900C0C069 /* Assets.xcassets */; };
 		618D14C12413FDA900C0C069 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 618D14C02413FDA900C0C069 /* Preview Assets.xcassets */; };
 		618D14C42413FDA900C0C069 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 618D14C22413FDA900C0C069 /* LaunchScreen.storyboard */; };
@@ -33,7 +33,6 @@
 		618D15152413FF6600C0C069 /* CommentaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D15072413FF6600C0C069 /* CommentaireView.swift */; };
 		618D15162413FF6600C0C069 /* InscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D15092413FF6600C0C069 /* InscriptionView.swift */; };
 		618D15182414034900C0C069 /* Commentaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D15172414034900C0C069 /* Commentaire.swift */; };
-		618D151A24140E1100C0C069 /* PostOuCommentaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D151924140E1100C0C069 /* PostOuCommentaire.swift */; };
 		61F0FC342415340A003DFA29 /* Donnees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F0FC332415340A003DFA29 /* Donnees.swift */; };
 /* End PBXBuildFile section */
 
@@ -87,7 +86,6 @@
 		618D15072413FF6600C0C069 /* CommentaireView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentaireView.swift; sourceTree = "<group>"; };
 		618D15092413FF6600C0C069 /* InscriptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InscriptionView.swift; sourceTree = "<group>"; };
 		618D15172414034900C0C069 /* Commentaire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commentaire.swift; sourceTree = "<group>"; };
-		618D151924140E1100C0C069 /* PostOuCommentaire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOuCommentaire.swift; sourceTree = "<group>"; };
 		61F0FC332415340A003DFA29 /* Donnees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Donnees.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -146,7 +144,7 @@
 				618D14BD2413FDA900C0C069 /* Assets.xcassets */,
 				618D14C22413FDA900C0C069 /* LaunchScreen.storyboard */,
 				618D14C52413FDA900C0C069 /* Info.plist */,
-				618D14B82413FDA700C0C069 /* Projet_AWI_Mobile___Core_Data.xcdatamodeld */,
+				618D14B82413FDA700C0C069 /* Projet_AWI_Mobile_-_Core_Data.xcdatamodeld */,
 				618D14BF2413FDA900C0C069 /* Preview Content */,
 			);
 			path = "Projet AWI Mobile - Core Data";
@@ -185,7 +183,6 @@
 				618D14F22413FEED00C0C069 /* Post.swift */,
 				618D14F02413FEED00C0C069 /* Utilisateur.swift */,
 				618D15172414034900C0C069 /* Commentaire.swift */,
-				618D151924140E1100C0C069 /* PostOuCommentaire.swift */,
 				61F0FC332415340A003DFA29 /* Donnees.swift */,
 			);
 			path = Model;
@@ -375,14 +372,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				618D14BA2413FDA700C0C069 /* Projet_AWI_Mobile___Core_Data.xcdatamodeld in Sources */,
+				618D14BA2413FDA700C0C069 /* Projet_AWI_Mobile_-_Core_Data.xcdatamodeld in Sources */,
 				618D14B52413FDA700C0C069 /* AppDelegate.swift in Sources */,
 				61F0FC342415340A003DFA29 /* Donnees.swift in Sources */,
 				618D150D2413FF6600C0C069 /* ProfilView.swift in Sources */,
 				618D15142413FF6600C0C069 /* EcrirePostView.swift in Sources */,
 				618D15102413FF6600C0C069 /* RechercherView.swift in Sources */,
 				618D150C2413FF6600C0C069 /* LogoView.swift in Sources */,
-				618D151A24140E1100C0C069 /* PostOuCommentaire.swift in Sources */,
 				618D150B2413FF6600C0C069 /* ConnexionView.swift in Sources */,
 				618D15152413FF6600C0C069 /* CommentaireView.swift in Sources */,
 				618D14F32413FEED00C0C069 /* Utilisateur.swift in Sources */,
@@ -718,13 +714,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		618D14B82413FDA700C0C069 /* Projet_AWI_Mobile___Core_Data.xcdatamodeld */ = {
+		618D14B82413FDA700C0C069 /* Projet_AWI_Mobile_-_Core_Data.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				618D14B92413FDA700C0C069 /* Projet_AWI_Mobile___Core_Data.xcdatamodel */,
 			);
 			currentVersion = 618D14B92413FDA700C0C069 /* Projet_AWI_Mobile___Core_Data.xcdatamodel */;
-			path = "Projet_AWI_Mobile___Core_Data.xcdatamodeld";
+			path = "Projet_AWI_Mobile_-_Core_Data.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

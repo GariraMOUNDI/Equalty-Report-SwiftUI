@@ -9,21 +9,16 @@
 import Foundation
 import CoreData
 
-public class Donnees: NSManagedObject, Identifiable{
-    
-    @NSManaged public var pseudo : String
-    @NSManaged public var mdp : String
-    
-}
 
-extension Donnees {
-    static func getDonnees() -> NSFetchRequest<Donnees> {
-        let request : NSFetchRequest<Donnees> = Donnees.fetchRequest() as! NSFetchRequest<Donnees>
-        
-        let descriptor = NSSortDescriptor(key : "pseudo", ascending : true)
-        
-        request.sortDescriptors = [descriptor]
-        
-        return request
-    }
-}
+
+//extension Donnees {
+//    static func getDonnees() -> NSFetchRequest<Donnees> {
+//        let request : NSFetchRequest<Donnees> = Donnees.fetchRequest() as! NSFetchRequest<Donnees>
+//        
+//        let descriptor = NSSortDescriptor(key : "pseudo", ascending : true)
+//        
+//        request.sortDescriptors = [descriptor]
+//        
+//        return request
+//    }
+//}

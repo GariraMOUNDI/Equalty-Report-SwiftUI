@@ -13,9 +13,11 @@ struct PostView: View {
     @State var post : Post
     @State var commentaire : Commentaire
     var estUnCommentaire : Bool
-    @State var aimer : Bool 
+    @State var aimer: Bool
+    @State var signaler : Bool
     @State var com : Bool = false
     var comment : Bool = false
+    
     var imgGauche : Bool{
         get{
             if(estUnCommentaire){
@@ -136,21 +138,36 @@ struct PostView: View {
                             self.com = false
                             //self.appState.getPost()
                         }, content: {
-                            CommentaireView(post: self.post, commentaire: "").environmentObject(self.appState)
+                            CommentaireView(post: self.$post, commentaire: "").environmentObject(self.appState)
                         })
                         Text("\(self.post.numCommentaires)").foregroundColor(Color.blue)
                     }
                     Spacer()
                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
-                        Image(systemName: "exclamationmark.triangle").foregroundColor(Color.blue)
+                        Image(systemName: "exclamationmark.triangle").foregroundColor(signaler ? Color.red : Color.blue)
                     }.onTapGesture {
-                        print("Signaler")
+                        self.signaler = true
+                        if (self.estUnCommentaire){
+                            self.commentaire.signaler.append(
+                                Signaler(createur: self.appState.utilisateur.id, texte: "Un texte")
+                            )
+                        }else{
+                            self.post.signaler.append(
+                                Signaler(createur: self.appState.utilisateur.id, texte: "Un texte")
+                            )
+                        }
+                        let elementModifier : Any = self.estUnCommentaire ? self.commentaire : self.post
+                        // Il faut l'en registrer dans la base de données 
+                        self.appState.signalerPost(postToModify: elementModifier)
                     }
                     Spacer()
                 }
             }
         }
+        
     }
+    
+    
 }
 
 /*struct PostView_Previews: PreviewProvider {

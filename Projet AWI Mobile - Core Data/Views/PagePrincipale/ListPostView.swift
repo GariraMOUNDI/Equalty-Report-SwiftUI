@@ -28,13 +28,13 @@ struct ListPostView: View {
             ForEach(postsToPrint) { post in
                 PostView(post: post, commentaire: Commentaire(), estUnCommentaire: false,
                          aimer: post.reactions.contains(self.appState.utilisateur.id),
-                    size: 40).padding(.top, 10)
+                         signaler: self.appState.estSignaler(post: post),
+                    size: 40)
                 }
                 Spacer()
-            }.padding(.horizontal, 10).navigationBarTitle(title)
+            }.navigationBarTitle(title)
      }
 }
-
 /*
 struct ListPostView_Previews: PreviewProvider {
     static var previews: some View {
