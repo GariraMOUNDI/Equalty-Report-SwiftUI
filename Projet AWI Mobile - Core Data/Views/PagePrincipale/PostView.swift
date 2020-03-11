@@ -82,7 +82,9 @@ struct PostView: View {
                 HStack(){
                     Spacer()
                     Button(action: {
-                        
+                        if(self.appState.commentaires.count != 0){
+                            self.aimerPost()
+                        }
                     }) {
                         HStack{
                             
@@ -105,37 +107,21 @@ struct PostView: View {
                             }
                         }
                     }.onTapGesture {
-                        if(self.estUnCommentaire){
-                            self.aimer.toggle()
-                            if(self.aimer){
-                                self.commentaire.reactions.append(self.appState.utilisateur.id)
-                            }else{
-                                self.commentaire.reactions = self.commentaire.reactions.filter({
-                                    return $0 != self.appState.utilisateur.id
-                                })
-                            }
-                            self.appState.ajouterLike(postToModify: self.commentaire)
-                        }else{
-                            self.aimer.toggle()
-                            if(self.aimer){
-                                self.post.reactions.append(self.appState.utilisateur.id)
-                            }else{
-                                self.post.reactions = self.post.reactions.filter({
-                                    return $0 != self.appState.utilisateur.id
-                                })
-                            }
-                            self.appState.ajouterLike(postToModify: self.post)
-                        }
+                        self.aimerPost()
                     }
                     Spacer()
                     
                     if(!comment){
                         Button(action: {
                             self.com = true
+                            if(self.appState.commentaires.count != 0){
+                                self.signalerPost()
+                            }
                             self.appState.getCommentaires(parentId : self.post.id)
                         }){                            Image(systemName: "message.circle").foregroundColor(Color.blue)
                         }.sheet(isPresented: self.$com , onDismiss: {
                             self.com = false
+                            self.appState.commentaires = []
                             //self.appState.getPost()
                         }, content: {
                             CommentaireView(post: self.post, commentaire: "").environmentObject(self.appState)
@@ -146,19 +132,7 @@ struct PostView: View {
                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
                         Image(systemName: "exclamationmark.triangle").foregroundColor(signaler ? Color.red : Color.blue)
                     }.onTapGesture {
-                        self.signaler = true
-                        if (self.estUnCommentaire){
-                            self.commentaire.signaler.append(
-                                Signaler(createur: self.appState.utilisateur.id, texte: "Un texte")
-                            )
-                        }else{
-                            self.post.signaler.append(
-                                Signaler(createur: self.appState.utilisateur.id, texte: "Un texte")
-                            )
-                        }
-                        let elementModifier : Any = self.estUnCommentaire ? self.commentaire : self.post
-                        // Il faut l'en registrer dans la base de données
-                        self.appState.signalerPost(postToModify: elementModifier)
+                        self.signalerPost()
                     }
                     Spacer()
                 }
@@ -167,7 +141,45 @@ struct PostView: View {
         
     }
     
+    func aimerPost(){
+        if(self.estUnCommentaire){
+            self.aimer.toggle()
+            if(self.aimer){
+                self.commentaire.reactions.append(self.appState.utilisateur.id)
+            }else{
+                self.commentaire.reactions = self.commentaire.reactions.filter({
+                    return $0 != self.appState.utilisateur.id
+                })
+            }
+            self.appState.ajouterLike(postToModify: self.commentaire)
+        }else{
+            self.aimer.toggle()
+            if(self.aimer){
+                self.post.reactions.append(self.appState.utilisateur.id)
+            }else{
+                self.post.reactions = self.post.reactions.filter({
+                    return $0 != self.appState.utilisateur.id
+                })
+            }
+            self.appState.ajouterLike(postToModify: self.post)
+        }
+    }
     
+    func signalerPost(){
+        self.signaler = true
+        if (self.estUnCommentaire){
+            self.commentaire.signaler.append(
+                Signaler(createur: self.appState.utilisateur.id, texte: "Un texte")
+            )
+        }else{
+            self.post.signaler.append(
+                Signaler(createur: self.appState.utilisateur.id, texte: "Un texte")
+            )
+        }
+        let elementModifier : Any = self.estUnCommentaire ? self.commentaire : self.post
+        // Il faut l'en registrer dans la base de données
+        self.appState.signalerPost(postToModify: elementModifier)
+    }
 }
 
 /*struct PostView_Previews: PreviewProvider {

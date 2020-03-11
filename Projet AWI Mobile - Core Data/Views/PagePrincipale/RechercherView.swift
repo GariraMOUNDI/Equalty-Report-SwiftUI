@@ -33,7 +33,7 @@ struct RechercherView: View {
                         Spacer()
                     }.navigationBarTitle("Recherche")
                 }else{
-                    ListPostView(title: "Recherche", rech: true, posts: postToPrint)
+                    ListPostView(rech: true, posts: postToPrint)
                 }
             }
             TextField("Rechercher", text: $rechercher)

@@ -19,7 +19,6 @@ struct ListPostView: View {
             }
         }
     }
-    var title : String
     var rech : Bool
     var posts : [Post]
     
@@ -32,7 +31,7 @@ struct ListPostView: View {
                     size: 40)
                 }
                 Spacer()
-            }.navigationBarTitle(title)
+            }
      }
 }
 /*

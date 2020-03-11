@@ -37,8 +37,8 @@ struct Acceuil: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing){
             NavigationView{
-                ListPostView(title: "Our App", rech: false, posts: [])
-                    .navigationBarTitle("Our App", displayMode: mode)
+                ListPostView(rech: false, posts: [])
+                    .navigationBarTitle("Equalty Report", displayMode: mode)
                     .navigationBarItems(trailing:
                     VStack{
                     if (!self.appState.isConnected){
