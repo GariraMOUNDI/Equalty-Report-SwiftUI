@@ -29,9 +29,7 @@ struct ModifierView: View {
                         .frame(height: 40.0)
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
                     .cornerRadius(10)
-                
-            }.padding(.bottom)
-            
+            }
             VStack(alignment: .leading, spacing: 10){
                 Text("E-mail")
                 .font(.title)

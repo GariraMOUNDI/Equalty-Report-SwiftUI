@@ -37,10 +37,18 @@ class AppState : ObservableObject {
     }
     
     // Permet de recuperer tous les utilisateurs
-    func getUtilisateur(_ pseudo: String, _ mdp : String){
-        let url = URL(string: "http://project-awi-api.herokuapp.com/auth")!
+    func getUtilisateur(_ pseudo: String, _ mdp : String, _ email: String){
+        let chemin : String
+        let body : [String : String]
+        if(email == ""){
+            chemin = "login"
+            body = ["pseudo" : pseudo, "mdp" : mdp]
+        }else{
+            chemin = "createaccount"
+            body = ["pseudo" : pseudo, "mdp" : mdp, "email": email]
+        }
         
-        let body : [String : String] = ["pseudo" : pseudo, "mdp" : mdp]
+        let url = URL(string: "http://project-awi-api.herokuapp.com/auth/\(chemin)")!
         print(body)
         let finalBody = try! JSONSerialization.data(withJSONObject: body)
         
@@ -58,12 +66,11 @@ class AppState : ObservableObject {
                     }
                         return
                 }else{
-                    print("No data !!!")
+                    print("No data login!!!")
                 }
             }
         print("Erreur !!!")
         }.resume()
-         
     }
     
     // Permet de recuperer tous les commentaires
@@ -193,12 +200,11 @@ class AppState : ObservableObject {
     func estSignaler(post: Any) -> Bool{
         var number : Int
         if let post = post as? Post {
-            let signaler = post.signaler.filter({ return $0.createur == self.utilisateur.id })
-            number = signaler.count
+            number = post.signaler.count
         }else{
             let commentaire = post as! Commentaire
-            let signaler = commentaire.signaler.filter({ return $0.createur == self.utilisateur.id })
-            number = signaler.count
+            //let signaler = commentaire.signaler.filter({ return $0.createur == self.utilisateur.id })
+            number = commentaire.signaler.count
         }
         if (number == 0){
             return false
@@ -208,12 +214,13 @@ class AppState : ObservableObject {
     }
     
     func signalerPost(postToModify: Any){
-        if let postToModify = postToModify as? Post {
-            self.rafraichirPost(postToModify: postToModify)
-        }else{
-            let commentaireToModify = postToModify as! Commentaire
-            self.rafraichirCommentaire(commentaireToModify: commentaireToModify)
-        }
+        self.ajouterLike(postToModify: postToModify)
+//        if let postToModify = postToModify as? Post {
+//            self.rafraichirPost(postToModify: postToModify)
+//        }else{
+//            let commentaireToModify = postToModify as! Commentaire
+//            self.rafraichirCommentaire(commentaireToModify: commentaireToModify)
+//        }
     }
     
     func rafraichirPost(postToModify: Post){

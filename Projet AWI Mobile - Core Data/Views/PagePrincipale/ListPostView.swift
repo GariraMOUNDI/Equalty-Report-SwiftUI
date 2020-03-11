@@ -25,10 +25,11 @@ struct ListPostView: View {
     var body: some View {
         List{
             ForEach(postsToPrint) { post in
-                PostView(post: post, commentaire: Commentaire(), estUnCommentaire: false,
+                PostView(post: post, commentaire: Commentaire(),
+                         estUnCommentaire: false,
                          aimer: post.reactions.contains(self.appState.utilisateur.id),
                          signaler: self.appState.estSignaler(post: post),
-                    size: 40)
+                         size: 40)
                 }
                 Spacer()
             }

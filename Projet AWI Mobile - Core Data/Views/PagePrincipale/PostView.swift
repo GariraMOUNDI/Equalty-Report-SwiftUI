@@ -81,13 +81,8 @@ struct PostView: View {
             if(self.appState.isConnected){
                 HStack(){
                     Spacer()
-                    Button(action: {
-                        if(self.appState.commentaires.count != 0){
-                            self.aimerPost()
-                        }
-                    }) {
+                    Button(action: {}) {
                         HStack{
-                            
                             if(estUnCommentaire){
                                 if (aimer){
                                     Image(systemName: "hand.thumbsup.fill").foregroundColor(Color.red)
@@ -114,9 +109,6 @@ struct PostView: View {
                     if(!comment){
                         Button(action: {
                             self.com = true
-                            if(self.appState.commentaires.count != 0){
-                                self.signalerPost()
-                            }
                             self.appState.getCommentaires(parentId : self.post.id)
                         }){                            Image(systemName: "message.circle").foregroundColor(Color.blue)
                         }.sheet(isPresented: self.$com , onDismiss: {
@@ -128,10 +120,11 @@ struct PostView: View {
                         })
                         Text("\(self.post.numCommentaires)").foregroundColor(Color.blue)
                     }
+                    
                     Spacer()
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
+                    Button(action: {}) {
                         Image(systemName: "exclamationmark.triangle").foregroundColor(signaler ? Color.red : Color.blue)
-                    }.onTapGesture {
+                    }.onTapGesture{
                         self.signalerPost()
                     }
                     Spacer()

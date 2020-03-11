@@ -38,7 +38,7 @@ struct Acceuil: View {
         ZStack(alignment: .bottomTrailing){
             NavigationView{
                 ListPostView(rech: false, posts: [])
-                    .navigationBarTitle("Equalty Report", displayMode: mode)
+                    .navigationBarTitle("Equal Report", displayMode: mode)
                     .navigationBarItems(trailing:
                     VStack{
                     if (!self.appState.isConnected){

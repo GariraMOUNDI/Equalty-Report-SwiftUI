@@ -24,8 +24,7 @@ struct FormView: View {
                         .fontWeight(.medium)
                     TextField("Entrer votre pseudo", text: $pseudo)
                     .padding(20)
-                        .frame(height: 40.0).background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1)).cornerRadius(10)
-                    
+                        .frame(height: 40.0).background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1)).cornerRadius(10).shadow(radius: 5)
                 }.padding(.bottom)
                 
                 VStack(alignment: .leading, spacing: 10){
@@ -36,13 +35,13 @@ struct FormView: View {
                         .padding(20)
                         .frame(height: 40.0)
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                    .cornerRadius(10)
+                    .cornerRadius(10).shadow(radius: 5)
                 }
                 
             }.padding(.bottom, topButton)
             
                 Button(action: {
-                    self.appState.getUtilisateur(self.pseudo, self.mdp)
+                    self.appState.getUtilisateur(self.pseudo, self.mdp, "")
                     if (self.appState.utilisateur.token != ""){
                         self.appState.isConnected = true
                         // Ici on enregistrera les données de l'utilisateur dans un fichier JSOn qui sera à chaque fois charger au démarrage de l'App
@@ -62,8 +61,7 @@ struct FormView: View {
                 Text("Pas de compte ? Inscrivez-vous").foregroundColor(Color.blue)
             }.padding(.top, 10)
             Spacer()
-        }
-        .padding(.horizontal, 20.0)
+        }.padding(.horizontal, 20.0)
         
     }
 }

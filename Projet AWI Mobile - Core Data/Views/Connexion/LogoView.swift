@@ -18,7 +18,7 @@ struct LogoView: View {
                     .frame(width: 90, height: 90)
                     .cornerRadius(30)
                 
-                    Text("Our Application")
+                    Text("Equal Report")
                 
             }.padding(.bottom, bottom)
         }
