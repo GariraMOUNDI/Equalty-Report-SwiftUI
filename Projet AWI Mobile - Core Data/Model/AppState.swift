@@ -11,7 +11,7 @@ import Foundation
 class AppState : ObservableObject {
     @Published var isConnected : Bool = false
     @Published var posts : [Post] = []
-    @Published var utilisateur = Utilisateur(token: "", data: Data(_id: "", pseudo: "", email: ""))
+    @Published var utilisateur = Utilisateur()
     @Published var modifierUtilisateur : Bool = false
     @Published var commentaires : [Commentaire] = []
     
@@ -56,20 +56,22 @@ class AppState : ObservableObject {
         request.httpBody = finalBody
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-type")
-        
         URLSession.shared.dataTask(with: request){data,_,_  in
             if let data = data {
                 print(data)
                 if let utilisateur = try? JSONDecoder().decode(Utilisateur.self, from: data) {
-                   DispatchQueue.main.async {
+                    DispatchQueue.main.async {
                         self.utilisateur = utilisateur
                     }
-                        return
+                    return
                 }else{
-                    print("No data login!!!")
+                    DispatchQueue.main.async {
+                        self.utilisateur = Utilisateur()
+                        print("No data login!!!")
+                    }
                 }
             }
-        print("Erreur !!!")
+            print("Erreur")
         }.resume()
     }
     
@@ -161,7 +163,14 @@ class AppState : ObservableObject {
             // Enregistrement dans la base de données
             let url = URL(string: "http://project-awi-api.herokuapp.com/posts/\(postToModify.id)")!
             
-            let body : [String : Any] = ["createur" : ["_id" : postToModify.createur._id, "pseudo": postToModify.createur.pseudo] , "texte": postToModify.texte, "id": postToModify.id, "dateCreation": postToModify.dateCreation, "reactions": postToModify.reactions]
+            let body : [String : Any] = [
+                "createur" :
+                    ["_id" : postToModify.createur._id,
+                     "pseudo": postToModify.createur.pseudo] ,
+                "texte": postToModify.texte, "id": postToModify.id,
+                "dateCreation": postToModify.dateCreation,
+                "reactions": postToModify.reactions
+            ]
             
             let finalBody = try! JSONSerialization.data(withJSONObject: body)
             
@@ -197,13 +206,40 @@ class AppState : ObservableObject {
         }
     }
     
+    func modifierUtilisateur(_ pseudo: String, _ mdp : String, _ email: String){
+        let url = URL(string: "http://project-awi-api.herokuapp.com/utilisateurs/\(self.utilisateur.id)")!
+        	
+        let body : [String : Any] = [
+            "pseudo" : pseudo,
+            "email" : email,
+            "mdp" : mdp,
+            "isAdmin": utilisateur.data.isAdmin!
+        ]
+        
+        let finalBody = try! JSONSerialization.data(withJSONObject: body)
+        
+        var request = URLRequest(url: url)
+        request.httpBody = finalBody
+        request.httpMethod = "PATCH"
+        request.setValue("Bearer \(self.utilisateur.token)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-type")
+        
+        URLSession.shared.dataTask(with: request).resume()
+        
+        self.setUtilisateur(pseudo, mdp, email)
+    }
+    
+    func setUtilisateur(_ pseudo: String, _ mdp : String, _ email: String){
+        let utilisateur = Utilisateur(token: self.utilisateur.token, data: Data(_id: self.utilisateur.id, pseudo: pseudo, email: email, isAdmin: self.utilisateur.data.isAdmin))
+        self.utilisateur = utilisateur
+    }
+    
     func estSignaler(post: Any) -> Bool{
         var number : Int
         if let post = post as? Post {
             number = post.signaler.count
         }else{
             let commentaire = post as! Commentaire
-            //let signaler = commentaire.signaler.filter({ return $0.createur == self.utilisateur.id })
             number = commentaire.signaler.count
         }
         if (number == 0){
@@ -215,12 +251,6 @@ class AppState : ObservableObject {
     
     func signalerPost(postToModify: Any){
         self.ajouterLike(postToModify: postToModify)
-//        if let postToModify = postToModify as? Post {
-//            self.rafraichirPost(postToModify: postToModify)
-//        }else{
-//            let commentaireToModify = postToModify as! Commentaire
-//            self.rafraichirCommentaire(commentaireToModify: commentaireToModify)
-//        }
     }
     
     func rafraichirPost(postToModify: Post){

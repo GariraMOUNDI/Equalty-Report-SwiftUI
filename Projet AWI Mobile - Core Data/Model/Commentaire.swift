@@ -20,6 +20,6 @@ struct Commentaire : Identifiable, Codable {
     var createur : Createur!
     var parentId : String = ""
     var dateCreation : String = ""
-    var signaler : [Signaler] = []
+    var signaler : [String] = []
     
 }

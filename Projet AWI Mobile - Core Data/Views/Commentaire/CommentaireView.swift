@@ -28,7 +28,10 @@ struct CommentaireView: View {
                ForEach(self.appState.commentaires) { commentaire in
                 PostView(post: Post(), commentaire: commentaire, estUnCommentaire: true, aimer: commentaire.reactions.contains(self.appState.utilisateur.id),
                          signaler: self.appState.estSignaler(post: commentaire),comment: true, size: 30)
-                }
+                }.onDelete(perform: {
+                    // il faut le supprimer aussi de la base de données
+                    self.appState.commentaires.remove(atOffsets: $0)
+                })
                 HStack{
                     TextField("Commenter", text: self.$commentaire)
                         .padding(20)

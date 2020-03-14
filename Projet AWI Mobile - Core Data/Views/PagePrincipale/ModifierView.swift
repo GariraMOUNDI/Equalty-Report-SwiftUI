@@ -16,6 +16,9 @@ struct ModifierView: View {
     @State var amdp : String
     @State var cmdp : String
     @State var value : CGFloat = 0
+    @State var  ancienMdp :  Bool = false
+    @State var  alert : String = ""
+    @State var ancienUtilisateur : Utilisateur
     
     var body: some View {
         VStack{
@@ -28,7 +31,7 @@ struct ModifierView: View {
                     .padding(20)
                         .frame(height: 40.0)
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                    .cornerRadius(10)
+                    .cornerRadius(10).shadow(radius: 5)
             }
             VStack(alignment: .leading, spacing: 10){
                 Text("E-mail")
@@ -38,7 +41,7 @@ struct ModifierView: View {
                     .padding(20)
                         .frame(height: 40.0)
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                    .cornerRadius(10)
+                    .cornerRadius(10).shadow(radius: 5)
             }
             VStack(alignment: .leading, spacing: 10){
                 Text("Ancien mot de passe")
@@ -48,7 +51,7 @@ struct ModifierView: View {
                     .padding(20)
                         .frame(height: 40.0)
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                    .cornerRadius(10)
+                    .cornerRadius(10).shadow(radius: 5)
             }
             VStack(alignment: .leading, spacing: 10){
                 Text("Nouveau mot de passe")
@@ -58,36 +61,68 @@ struct ModifierView: View {
                     .padding(20)
                         .frame(height: 40.0)
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                    .cornerRadius(10)
+                    .cornerRadius(10).shadow(radius: 5)
             }
             VStack(alignment: .leading, spacing: 10){
-                Text("Retaper votre mot de passe")
+                Text("Confirmer votre mot de passe")
                 .font(.title)
                 .fontWeight(.medium)
                 SecureField("Entrer votre mot de passe", text: self.$cmdp )
                     .padding(20)
                         .frame(height: 40.0)
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                    .cornerRadius(10)
+                    .cornerRadius(10).shadow(radius: 5)
             }
         }.padding(.bottom, 10)
             
-        Button(action: {
-            
-//            print(self.amdp == self.appState.utilisateur.data.mdp && self.mdp == self.cmdp)
-            print(self.amdp, self.mdp, self.cmdp)
-//            if(self.amdp == self.appState.utilisateur.data.mdp && self.mdp == self.cmdp){
-                self.appState.utilisateur.data.pseudo = self.pseudo
-            // self.appState.utilisateur.data.mdp = self.mdp
-                self.appState.utilisateur.data.email = self.email
+            HStack(spacing: 20){
                 
+                Button(action: {
+                    self.appState.utilisateur = self.ancienUtilisateur
+                    self.appState.modifierUtilisateur.toggle()
+                }){
+                    Text("Annuler").foregroundColor(Color.white).frame(width: 120.0, height: 40.0).background(Color.blue).cornerRadius(20)
+                }.shadow(radius: 10)
                 
-                self.appState.modifierUtilisateur.toggle()
-        }){ Text("Confirmer").foregroundColor(Color.white).padding(15.0).frame(width: 150.0, height: 40.0).background(Color.red).cornerRadius(20)
-        }
+                Button(action: {
+                    let pseudo = self.pseudo.trimmingCharacters(in: .whitespacesAndNewlines)
+                    let email = self.email.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if (pseudo != "" && email != "" && self.amdp != "" && self.mdp != "" && self.cmdp != ""){
+                        // Ici il faut vérifier que ce pseudo n'existe pas déja dans la bd
+                        //self.appState.getUtilisateur(pseudo, self.mdp, email)
+                        self.appState.getUtilisateur(self.ancienUtilisateur.data.pseudo, self.amdp, "")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                if( self.appState.utilisateur.token == ""){
+                                    self.alert = "L'ancien mot de passe ne correspond pas.\n Veuillez vérifier qu'il a été bien saisi"
+                                    self.ancienMdp.toggle()
+                                }else{
+                                    if(self.mdp != self.cmdp){
+                                        self.alert = "Le mot de passe confirmer ne correspond pas. \n Veuillez saisir exactement votre nouveau mot de passe pour le confirmer"
+                                        self.ancienMdp.toggle()
+                                    }else{
+                                        self.appState.modifierUtilisateur(pseudo, self.mdp, email)
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                            print(self.appState.utilisateur.data.pseudo, " +++ 55555 ")
+                                            self.appState.modifierUtilisateur.toggle()
+                                        })
+                                        print("c'est bon !!")
+                                    }
+                                }
+                        })
+                    }else{
+                        self.alert = "Veuillez remplir tous les champs."
+                        self.ancienMdp.toggle()
+                    }
+                }){
+                    Text("Confirmer").foregroundColor(Color.white).frame(width: 120.0, height: 40.0).background(Color.red).cornerRadius(20)
+                }.alert(isPresented: self.$ancienMdp, content: {
+                  Alert(title: Text("Modification"),
+                        message: Text(self.alert),
+                        dismissButton: .default(Text("Ok"), action: { self.ancienMdp.toggle() }))
+                    }).shadow(radius: 10)
+            }
     }
         
 }
-
 }
 

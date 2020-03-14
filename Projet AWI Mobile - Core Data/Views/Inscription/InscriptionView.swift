@@ -14,6 +14,7 @@ struct InscriptionView: View {
     @State var email: String
     @State var cmdp: String
     var topButton: CGFloat
+    @State var alert : String = ""
     @EnvironmentObject var appState : AppState
     @State var inscrire : Bool = false
     
@@ -70,11 +71,25 @@ struct InscriptionView: View {
                 }.padding(.bottom, topButton).padding(.horizontal, 20)
                 
                     Button(action: {
-                        print("Pseudo : \(self.pseudo) et MDP : \(self.mdp) et \(self.email)")
-                        if(self.mdp == self.cmdp){
-                            self.appState.getUtilisateur(self.pseudo, self.mdp, self.email)
-                            self.appState.isConnected = true
+                        let pseudo = self.pseudo.trimmingCharacters(in: .whitespacesAndNewlines)
+                        let email = self.email.trimmingCharacters(in: .whitespacesAndNewlines)
+                        if(pseudo != "" && email != "" && self.mdp != "" && self.cmdp != ""){
+                            if(self.mdp == self.cmdp){
+                                self.appState.getUtilisateur(pseudo, self.mdp, email)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                    if(self.appState.utilisateur.id != ""){
+                                        self.appState.isConnected = true
+                                    }else{
+                                        self.alert = "Cet utilisateur existe déja."
+                                        self.inscrire.toggle()
+                                    }
+                                })
+                            }else{
+                                self.alert = "Le mot de passe confirmé ne correspond pas. \n Veuillez resaisir votre mot de passe."
+                                self.inscrire.toggle()
+                            }
                         }else{
+                            self.alert = "Veuillez remplir tous les champs."
                             self.inscrire.toggle()
                         }
                     }) {
@@ -82,11 +97,10 @@ struct InscriptionView: View {
                     }.padding(40)
                     .frame(height: 50.0).background(Color.green).cornerRadius(20)
                 .alert(isPresented: $inscrire, content: {
-                    Alert(title: Text("Inscription"), message: Text("Veuillez confirmer votre mot de passe \n Le mot de passe confirmé ne correpond pas"),
-                          dismissButton: .default(Text("Ok"), action: {
-                        self.inscrire.toggle()
-                    }))
-                })
+                    Alert(title: Text("Inscription"),
+                          message: Text(self.alert),
+                          dismissButton: .default(Text("Ok"), action: { self.inscrire.toggle() }))
+                        }).shadow(radius: 10)
             }
             Spacer()
         }

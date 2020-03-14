@@ -35,13 +35,21 @@ struct ProfilView: View {
                         Text(self.appState.utilisateur.data.email).font(.title).fontWeight(.regular)
                     }
                 }.padding(.vertical, 20.0)
-                Button(action: {
-                    self.appState.modifierUtilisateur.toggle()
-                }){ Text("Modifier").foregroundColor(Color.white).padding(15.0).frame(width: 150, height: 40.0).background(Color.green).cornerRadius(20)
+                HStack(spacing: 20){
+                    Button(action: {
+                        // Il faut supprimer l'élément de la base de données
+                        //self.appState.modifierUtilisateur.toggle()
+                    }){ Text("Supprimer").foregroundColor(Color.white).frame(width: 100, height: 40.0).background(Color.red).cornerRadius(20).shadow(radius: 10)
+                    }
+                    Button(action: {
+                        self.appState.modifierUtilisateur.toggle()
+                    }){ Text("Modifier").foregroundColor(Color.white).frame(width: 100, height: 40.0).background(Color.green).cornerRadius(20).shadow(radius: 10)
+                    }
                 }
+                
             }else{
                 ScrollView(.vertical){
-                    ModifierView(email: self.appState.utilisateur.data.email, pseudo: self.appState.utilisateur.data.pseudo, mdp: "", amdp: "", cmdp: "")
+                    ModifierView(email: self.appState.utilisateur.data.email, pseudo: self.appState.utilisateur.data.pseudo, mdp: "", amdp: "", cmdp: "",ancienUtilisateur: self.appState.utilisateur)
                 }
             }
             Spacer().navigationBarTitle("Profil")

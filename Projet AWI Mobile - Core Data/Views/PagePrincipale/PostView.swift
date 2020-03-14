@@ -13,6 +13,7 @@ struct PostView: View {
     @State var post : Post
     @State var commentaire : Commentaire
     var estUnCommentaire : Bool
+    @State var texteSignaler : String = ""
     @State var aimer: Bool
     @State var signaler : Bool
     @State var com : Bool = false
@@ -125,6 +126,7 @@ struct PostView: View {
                     Button(action: {}) {
                         Image(systemName: "exclamationmark.triangle").foregroundColor(signaler ? Color.red : Color.blue)
                     }.onTapGesture{
+                        self.signaler = true
                         self.signalerPost()
                     }
                     Spacer()
@@ -159,14 +161,16 @@ struct PostView: View {
     }
     
     func signalerPost(){
-        self.signaler = true
         if (self.estUnCommentaire){
-            self.commentaire.signaler.append(
-                Signaler(createur: self.appState.utilisateur.id, texte: "Un texte")
-            )
+            let deja = self.commentaire.signaler.filter({ return $0  == self.appState.utilisateur.id}).count
+            if(deja == 0){
+                self.commentaire.signaler.append(
+                    self.appState.utilisateur.id
+                )
+            }
         }else{
             self.post.signaler.append(
-                Signaler(createur: self.appState.utilisateur.id, texte: "Un texte")
+                self.appState.utilisateur.id
             )
         }
         let elementModifier : Any = self.estUnCommentaire ? self.commentaire : self.post

@@ -30,9 +30,12 @@ struct ListPostView: View {
                          aimer: post.reactions.contains(self.appState.utilisateur.id),
                          signaler: self.appState.estSignaler(post: post),
                          size: 40)
-                }
-                Spacer()
-            }
+            }.onDelete(perform: {
+                // if faut aussi le supprimer de la base de données
+                self.appState.posts.remove(atOffsets: $0)
+                
+            })
+        }
      }
 }
 /*

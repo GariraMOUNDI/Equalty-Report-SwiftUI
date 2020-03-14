@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct Utilisateur : Codable {
-    var token : String
-    var data : Data
+    var token : String = ""
+    var data : Data = Data()
     var id : String{
         get{
             return data._id
@@ -19,7 +19,8 @@ struct Utilisateur : Codable {
 }
 
 struct Data : Codable {
-    var _id : String
-    var pseudo : String
-    var email : String
+    var _id : String = ""
+    var pseudo : String = ""
+    var email : String = ""
+    var isAdmin : Bool!
 }
