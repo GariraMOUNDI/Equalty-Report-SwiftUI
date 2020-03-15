@@ -75,7 +75,7 @@ struct InscriptionView: View {
                         let email = self.email.trimmingCharacters(in: .whitespacesAndNewlines)
                         if(pseudo != "" && email != "" && self.mdp != "" && self.cmdp != ""){
                             if(self.mdp == self.cmdp){
-                                self.appState.getUtilisateur(pseudo, self.mdp, email)
+                                self.appState.requeteUtilisateur(pseudo, self.mdp, email, type: .Creer)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                                     if(self.appState.utilisateur.id != ""){
                                         self.appState.isConnected = true

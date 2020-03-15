@@ -20,7 +20,7 @@ class Post : Identifiable, Codable{
     var createur : Createur!
     var numCommentaires : Int = 0
     var dateCreation : String = ""
-    var signaler : [String]!
+    var signaler : [String] = []
 }
 
 struct Createur : Codable {

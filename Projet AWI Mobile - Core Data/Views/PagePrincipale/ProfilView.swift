@@ -13,6 +13,7 @@ struct ProfilView: View {
     @State var edit : Bool = false
     @State var mdp : String
     @State var cmdp : String
+    @State var alert : Bool = false
     
     var body: some View {
         NavigationView {
@@ -29,18 +30,33 @@ struct ProfilView: View {
                         Text("E-mail : ")
                             .font(.title)
                             .fontWeight(.medium)
+                        
                     }
                     VStack(alignment: .leading, spacing: 20.0){
                         Text(self.appState.utilisateur.data.pseudo).font(.title).fontWeight(.regular)
                         Text(self.appState.utilisateur.data.email).font(.title).fontWeight(.regular)
                     }
                 }.padding(.vertical, 20.0)
+                
                 HStack(spacing: 20){
                     Button(action: {
-                        // Il faut supprimer l'élément de la base de données
-                        //self.appState.modifierUtilisateur.toggle()
+                        self.alert.toggle()
                     }){ Text("Supprimer").foregroundColor(Color.white).frame(width: 100, height: 40.0).background(Color.red).cornerRadius(20).shadow(radius: 10)
                     }
+//                    .alert(isPresented: self.$alert, content: {
+//                        Alert(
+//                            title: Text("Suppression"),
+//                            message: "Voulez-vous vraiment suppimer ce compte ? \n Cet action sera irreversible.",
+//                            primaryButton: .destructive(Text("Oui"), action: {
+//                                self.appState.requeteUtilisateur(type: .Supprimer)
+//                                self.appState.isConnected = false
+//                            }),
+//                            dismissButton: .default(Text("Non"), action: {
+//                                self.alert.toggle()
+//                            }))
+//                    })
+
+                    
                     Button(action: {
                         self.appState.modifierUtilisateur.toggle()
                     }){ Text("Modifier").foregroundColor(Color.white).frame(width: 100, height: 40.0).background(Color.green).cornerRadius(20).shadow(radius: 10)

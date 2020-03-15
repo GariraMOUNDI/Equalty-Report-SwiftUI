@@ -25,6 +25,7 @@ class AppState : ObservableObject {
                     DispatchQueue.main.async {
                         print(posts[0].id)
                         self.posts = posts
+                        print(Date())
                     }
                     return
                 }else{
@@ -32,46 +33,6 @@ class AppState : ObservableObject {
                 }
             }
             print("Erreur !!!")
-        }.resume()
-
-    }
-    
-    // Permet de recuperer tous les utilisateurs
-    func getUtilisateur(_ pseudo: String, _ mdp : String, _ email: String){
-        let chemin : String
-        let body : [String : String]
-        if(email == ""){
-            chemin = "login"
-            body = ["pseudo" : pseudo, "mdp" : mdp]
-        }else{
-            chemin = "createaccount"
-            body = ["pseudo" : pseudo, "mdp" : mdp, "email": email]
-        }
-        
-        let url = URL(string: "http://project-awi-api.herokuapp.com/auth/\(chemin)")!
-        print(body)
-        let finalBody = try! JSONSerialization.data(withJSONObject: body)
-        
-        var request = URLRequest(url: url)
-        request.httpBody = finalBody
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-type")
-        URLSession.shared.dataTask(with: request){data,_,_  in
-            if let data = data {
-                print(data)
-                if let utilisateur = try? JSONDecoder().decode(Utilisateur.self, from: data) {
-                    DispatchQueue.main.async {
-                        self.utilisateur = utilisateur
-                    }
-                    return
-                }else{
-                    DispatchQueue.main.async {
-                        self.utilisateur = Utilisateur()
-                        print("No data login!!!")
-                    }
-                }
-            }
-            print("Erreur")
         }.resume()
     }
     
@@ -94,6 +55,14 @@ class AppState : ObservableObject {
         }.resume()
     return []
     }
+    
+    // Permet de supprimer un post ou commentaire
+//    func supprimerCommentaire(post: Any){
+//        var chemin : String
+//        if let post = post as? Post {
+//            
+//        }
+//    }
     
     // Permet de creer un commentaire
     func creerCommentaireOuPost(createur: String, parentId: String, texte: String){
@@ -158,6 +127,7 @@ class AppState : ObservableObject {
         self.posts = newPosts
     }
     
+    // permet d'ajouter un like
     func ajouterLike(postToModify: Any){
         if let postToModify = postToModify as? Post{
             // Enregistrement dans la base de données
@@ -204,29 +174,6 @@ class AppState : ObservableObject {
             // Modification de la vue
             self.rafraichirCommentaire(commentaireToModify: commentaireToModify)
         }
-    }
-    
-    func modifierUtilisateur(_ pseudo: String, _ mdp : String, _ email: String){
-        let url = URL(string: "http://project-awi-api.herokuapp.com/utilisateurs/\(self.utilisateur.id)")!
-        	
-        let body : [String : Any] = [
-            "pseudo" : pseudo,
-            "email" : email,
-            "mdp" : mdp,
-            "isAdmin": utilisateur.data.isAdmin!
-        ]
-        
-        let finalBody = try! JSONSerialization.data(withJSONObject: body)
-        
-        var request = URLRequest(url: url)
-        request.httpBody = finalBody
-        request.httpMethod = "PATCH"
-        request.setValue("Bearer \(self.utilisateur.token)", forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Content-type")
-        
-        URLSession.shared.dataTask(with: request).resume()
-        
-        self.setUtilisateur(pseudo, mdp, email)
     }
     
     func setUtilisateur(_ pseudo: String, _ mdp : String, _ email: String){
@@ -276,4 +223,82 @@ class AppState : ObservableObject {
         }
         self.commentaires = newCommentaire
     }
+    
+    public enum Crud{
+        case Lire, Creer, Modifier, Supprimer
+    }
+    
+    func requeteUtilisateur(_ pseudo:String = "", _ mdp: String = "", _ email: String = "", type: Crud){
+        var chemin : String = ""
+        var method : String = ""
+        var withToken : Bool = false
+        var body : [String : Any] = [:]
+        
+        switch type {
+        case .Lire:
+            method = "POST"
+            chemin = "auth/login"
+            body = ["pseudo" : pseudo, "mdp" : mdp]
+            withToken = false
+            break
+        case .Creer:
+            method = "POST"
+            chemin = "auth/createaccount"
+            body = ["pseudo" : pseudo, "mdp" : mdp, "email": email]
+            withToken = false
+            break
+        case .Modifier:
+            method = "PATCH"
+            chemin = "utilisateurs/\(self.utilisateur.id)"
+            body = [
+                "pseudo" : pseudo,
+                "email" : email,
+                "mdp" : mdp,
+                "isAdmin": utilisateur.data.isAdmin!
+            ]
+            withToken = true
+            break
+        case .Supprimer:
+            method = "DELETE"
+            chemin = "utilisateurs/\(self.utilisateur.id)"
+            body = [:]
+            withToken = true
+            break
+        }
+        
+        let url = URL(string: "http://project-awi-api.herokuapp.com/\(chemin)")!
+        print(body)
+        let finalBody = try! JSONSerialization.data(withJSONObject: body)
+        
+        var request = URLRequest(url: url)
+        request.httpBody = finalBody
+        request.httpMethod = method
+        if(withToken){
+            request.setValue("Bearer \(self.utilisateur.token)", forHTTPHeaderField: "Authorization")
+        }
+        request.setValue("application/json", forHTTPHeaderField: "Content-type")
+        URLSession.shared.dataTask(with: request){data,_,_  in
+            if let data = data {
+                print(data)
+                if let utilisateur = try? JSONDecoder().decode(Utilisateur.self, from: data) {
+                    DispatchQueue.main.async {
+                        print(utilisateur.data.pseudo)
+                        self.utilisateur = utilisateur
+                    }
+                    return
+                }else{
+                    if(type == .Modifier){
+                        self.setUtilisateur(pseudo, mdp, email)
+                    }else{
+                        DispatchQueue.main.async {
+                            self.utilisateur = Utilisateur()
+                            print("Cannot parse the result to Utilisateur !!!")
+                        }
+                    }
+                }
+            }
+            print("Erreur")
+        }.resume()
+    }
 }
+

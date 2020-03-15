@@ -41,7 +41,7 @@ struct FormView: View {
             }.padding(.bottom, topButton)
             
                 Button(action: {
-                    self.appState.getUtilisateur(self.pseudo.trimmingCharacters(in: .whitespacesAndNewlines), self.mdp, "")
+                    self.appState.requeteUtilisateur(self.pseudo.trimmingCharacters(in: .whitespacesAndNewlines), self.mdp, "", type: .Lire)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                         if (self.appState.utilisateur.token != ""){
                             self.appState.isConnected = true

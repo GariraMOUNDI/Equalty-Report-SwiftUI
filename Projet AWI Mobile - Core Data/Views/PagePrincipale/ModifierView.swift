@@ -88,10 +88,10 @@ struct ModifierView: View {
                     let pseudo = self.pseudo.trimmingCharacters(in: .whitespacesAndNewlines)
                     let email = self.email.trimmingCharacters(in: .whitespacesAndNewlines)
                     if (pseudo != "" && email != "" && self.amdp != "" && self.mdp != "" && self.cmdp != ""){
-                        // Ici il faut vérifier que ce pseudo n'existe pas déja dans la bd
-                        //self.appState.getUtilisateur(pseudo, self.mdp, email)
-                        self.appState.getUtilisateur(self.ancienUtilisateur.data.pseudo, self.amdp, "")
+                        self.appState.requeteUtilisateur(self.ancienUtilisateur.data.pseudo, self.amdp, "", type: .Lire)
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            print(self.appState.utilisateur.token ," ++++ Token ")
                                 if( self.appState.utilisateur.token == ""){
                                     self.alert = "L'ancien mot de passe ne correspond pas.\n Veuillez vérifier qu'il a été bien saisi"
                                     self.ancienMdp.toggle()
@@ -100,7 +100,7 @@ struct ModifierView: View {
                                         self.alert = "Le mot de passe confirmer ne correspond pas. \n Veuillez saisir exactement votre nouveau mot de passe pour le confirmer"
                                         self.ancienMdp.toggle()
                                     }else{
-                                        self.appState.modifierUtilisateur(pseudo, self.mdp, email)
+                                        self.appState.requeteUtilisateur(pseudo, self.mdp, email, type: .Modifier)
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                                             print(self.appState.utilisateur.data.pseudo, " +++ 55555 ")
                                             self.appState.modifierUtilisateur.toggle()

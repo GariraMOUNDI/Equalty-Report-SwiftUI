@@ -32,22 +32,20 @@ struct CommentaireView: View {
                     // il faut le supprimer aussi de la base de données
                     self.appState.commentaires.remove(atOffsets: $0)
                 })
-                HStack{
-                    TextField("Commenter", text: self.$commentaire)
-                        .padding(20)
-                            .frame(height: 40.0)
-                            .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                        .cornerRadius(10)
-                    Button(action: {
-                        // A coder la logique
-                    }){
-                        Image(systemName: "tray.and.arrow.up.fill")
-                            .font(.system(size: 25)).foregroundColor(Color.blue)
-                    }.onTapGesture {
-                        self.appState.creerCommentaireOuPost(createur:
-                            self.appState.utilisateur.id, parentId: self.post.id, texte: self.commentaire)
-                        self.commentaire = ""
-                    }
+            }
+            HStack{
+                TextField("Commenter", text: self.$commentaire)
+                    .padding(20)
+                        .frame(height: 40.0)
+                        .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
+                    .cornerRadius(10)
+                Button(action: {}){
+                    Image(systemName: "tray.and.arrow.up.fill")
+                        .font(.system(size: 25)).foregroundColor(Color.blue)
+                }.onTapGesture {
+                    self.appState.creerCommentaireOuPost(createur:
+                        self.appState.utilisateur.id, parentId: self.post.id, texte: self.commentaire)
+                    self.commentaire = ""
                 }
             }
                 
