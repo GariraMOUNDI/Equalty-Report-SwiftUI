@@ -43,19 +43,6 @@ struct ProfilView: View {
                         self.alert.toggle()
                     }){ Text("Supprimer").foregroundColor(Color.white).frame(width: 100, height: 40.0).background(Color.red).cornerRadius(20).shadow(radius: 10)
                     }
-//                    .alert(isPresented: self.$alert, content: {
-//                        Alert(
-//                            title: Text("Suppression"),
-//                            message: "Voulez-vous vraiment suppimer ce compte ? \n Cet action sera irreversible.",
-//                            primaryButton: .destructive(Text("Oui"), action: {
-//                                self.appState.requeteUtilisateur(type: .Supprimer)
-//                                self.appState.isConnected = false
-//                            }),
-//                            dismissButton: .default(Text("Non"), action: {
-//                                self.alert.toggle()
-//                            }))
-//                    })
-
                     
                     Button(action: {
                         self.appState.modifierUtilisateur.toggle()
@@ -74,7 +61,20 @@ struct ProfilView: View {
             VStack{
                 Image(systemName: "person.crop.circle").font(.system(size: 25))
             }
-        }
+        }.alert(isPresented: self.$alert, content: {
+            Alert(title: Text("Suppression de compte"),
+                  message: Text("Voulez-vous vriment supprimer ce compte ?\n Cet action est irréversible."),
+                  primaryButton: .destructive(Text("Oui"), action: {
+                        self.appState.requeteUtilisateur(type: .Supprimer)
+                        self.appState.getPost()
+                        DispatchQueue.main.asyncAfter(deadline: .now()+0.3, execute: {
+                            self.appState.isConnected = false
+                        })
+                  }),
+                  secondaryButton: .default(Text("Non"), action: {
+                        self.alert.toggle()
+                  }))
+        })
     }
 }
 /*

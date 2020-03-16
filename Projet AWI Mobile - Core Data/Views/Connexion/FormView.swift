@@ -23,8 +23,8 @@ struct FormView: View {
                         .font(.title)
                         .fontWeight(.medium)
                     TextField("Entrer votre pseudo", text: $pseudo)
-                    .padding(20)
-                        .frame(height: 40.0).background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1)).cornerRadius(10).shadow(radius: 5)
+                    .padding(20).textFieldStyle(RoundedBorderTextFieldStyle())
+                        .frame(height: 40.0)
                 }.padding(.bottom)
                 
                 VStack(alignment: .leading, spacing: 10){
@@ -42,9 +42,12 @@ struct FormView: View {
             
                 Button(action: {
                     self.appState.requeteUtilisateur(self.pseudo.trimmingCharacters(in: .whitespacesAndNewlines), self.mdp, "", type: .Lire)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
                         if (self.appState.utilisateur.token != ""){
-                            self.appState.isConnected = true
+                            self.appState.getPost()
+                            DispatchQueue.main.asyncAfter(deadline: .now()+0.3, execute: {
+                                self.appState.isConnected = true
+                            })
                         }else{
                             self.connect.toggle()
                         }

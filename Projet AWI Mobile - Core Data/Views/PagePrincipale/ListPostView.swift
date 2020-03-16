@@ -22,7 +22,7 @@ struct ListPostView: View {
     var rech : Bool
     var posts : [Post]
     var fram : CGRect!
-    
+    @State var alert : Bool = false
     var body: some View {
             List{
                 ForEach(postsToPrint) { post in
@@ -32,9 +32,17 @@ struct ListPostView: View {
                              signaler: self.appState.estSignaler(post: post),
                              size: 40)
                 }.onDelete(perform: {
-                    
-                    self.appState.posts.remove(atOffsets: $0)
-                })
+                    let index = Array($0)
+                         let post = self.appState.posts[index[0]]
+                         if(self.appState.utilisateur.id == post.createur._id){
+                             self.appState.supprimerComOuPost(post: post)
+                             self.appState.posts.remove(atOffsets: $0)
+                         }else{
+                             self.alert.toggle()
+                         }
+                    }).alert(isPresented: self.$alert, content: {
+                     Alert(title: Text("Supprimer"), message: Text("Désolé vous n'avez pas le droit de supprimer d'autres posts à part les votres."), dismissButton: .default(Text("Ok"), action: { self.alert.toggle() }))
+                    })
             }
     }
 }

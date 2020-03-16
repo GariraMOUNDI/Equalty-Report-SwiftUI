@@ -57,12 +57,41 @@ class AppState : ObservableObject {
     }
     
     // Permet de supprimer un post ou commentaire
-//    func supprimerCommentaire(post: Any){
-//        var chemin : String
-//        if let post = post as? Post {
-//            
-//        }
-//    }
+    func supprimerComOuPost(post: Any){
+        let chemin : String
+        let id : String
+        
+        if let post = post as? Post {
+            chemin = "posts"
+            id = post.id
+        }else{
+            let commentaire = post as! Commentaire
+            chemin = "commentaires"
+            id = commentaire.id
+        }
+        
+        let url = URL(string: "http://project-awi-api.herokuapp.com/\(chemin)/\(id)")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("Bearer \(self.utilisateur.token)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-type")
+        
+        URLSession.shared.dataTask(with: request).resume()
+        
+        if let commentaire = post as? Commentaire {
+            var newPosts: [Post] = []
+            posts.forEach{ post in
+                if( post.id == commentaire.parentId){
+                    post.numCommentaires = post.numCommentaires - 1
+                    newPosts.append(post)
+                }else{
+                    newPosts.append(post)
+                }
+            }
+            self.posts = newPosts
+        }
+    }
     
     // Permet de creer un commentaire
     func creerCommentaireOuPost(createur: String, parentId: String, texte: String){

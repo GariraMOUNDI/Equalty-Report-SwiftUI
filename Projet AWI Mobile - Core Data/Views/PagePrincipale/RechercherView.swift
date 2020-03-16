@@ -36,6 +36,7 @@ struct RechercherView: View {
                     ListPostView(rech: true, posts: postToPrint).navigationBarTitle("Recherche")
                 }
             }
+            
             TextField("Rechercher", text: $rechercher)
                 .padding(.horizontal, 20.0)
                 .frame(height: 40)
@@ -45,9 +46,7 @@ struct RechercherView: View {
                 .onAppear{
                     NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){ noti in
                         let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-                        let height = value.height
-                        self.value = height
-                    }
+                        self.value = value.size.height                    }
                     
                     NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main){ noti in
                         self.value = 0

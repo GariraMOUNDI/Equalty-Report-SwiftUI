@@ -111,7 +111,8 @@ struct PostView: View {
                         Button(action: {
                             self.com = true
                             self.appState.getCommentaires(parentId : self.post.id)
-                        }){                            Image(systemName: "message.circle").foregroundColor(Color.blue)
+                        }){
+                            Image(systemName: "message.circle").foregroundColor(Color.blue)
                         }.sheet(isPresented: self.$com , onDismiss: {
                             self.com = false
                             self.appState.commentaires = []
