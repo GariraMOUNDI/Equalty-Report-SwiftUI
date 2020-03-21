@@ -50,7 +50,6 @@ struct Acceuil: View {
                             self.appState.isConnected.toggle()
                             self.appState.utilisateur = Utilisateur(token: "", data: Data(_id: "", pseudo: "", email: ""))
                             self.appState.getPost()
-                            // Ici on doit supprimer les infos du fichier JSON qu'on créera pour stockées les données de l'utilisateur
                         }) {
                             Image(systemName: "power").font(.system(size: 25)).foregroundColor(Color.red)
                         }

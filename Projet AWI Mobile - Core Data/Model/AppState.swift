@@ -130,7 +130,7 @@ class AppState : ObservableObject {
                     }else{
                         if let commentaire = try? JSONDecoder().decode(Commentaire.self, from: data) {
                             DispatchQueue.main.async {
-                                    self.commentaires.append(commentaire)
+                                    self.commentaires.insert(commentaire, at: 0)
                             }
                                 return
                         }else{

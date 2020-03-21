@@ -60,11 +60,12 @@ struct PostView: View {
         VStack(alignment : mode){
             HStack(alignment: .top){
                 if (imgGauche){
-                    Image("Flame").resizable().frame(width: size, height: size).cornerRadius(10)
+                    Image("Flame").resizable().frame(width: size, height: size).clipShape(Circle()).shadow(radius: 5)
                 }
                 if (imgDroite){
                     Spacer()
                 }
+                
                 VStack(alignment: mode){
                     if(estUnCommentaire){
                         Text(commentaire.createur.pseudo).bold()
@@ -74,8 +75,9 @@ struct PostView: View {
                         Text(post.texte)
                     }
                 }.shadow(radius: 1,y:1)
+                
                 if (imgDroite){
-                    Image("Flame").resizable().frame(width: size, height: size).cornerRadius(10)
+                    Image("Flame").resizable().frame(width: size, height: size).clipShape(Circle()).shadow(radius: 5)
                 }
             }
             

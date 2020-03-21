@@ -30,7 +30,8 @@ struct ListPostView: View {
                              estUnCommentaire: false,
                              aimer: post.reactions.contains(self.appState.utilisateur.id),
                              signaler: self.appState.estSignaler(post: post),
-                             size: 40)
+                             size: 45)
+                    Text(post.date)
                 }.onDelete(perform: {
                     let index = Array($0)
                          let post = self.appState.posts[index[0]]

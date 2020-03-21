@@ -24,7 +24,7 @@ struct CommentaireView: View {
                  estUnCommentaire: false,
                  aimer: self.post.reactions.contains(self.appState.utilisateur.id),
                 signaler: self.appState.estSignaler(post: post),
-                comment: true, size: 40).padding(.horizontal, 20)
+                comment: true, size: 45).padding(.horizontal, 20)
             
             List{
                ForEach(self.appState.commentaires) { commentaire in
@@ -52,8 +52,7 @@ struct CommentaireView: View {
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
                     .cornerRadius(10)
                 Button(action: {
-                    self.appState.creerCommentaireOuPost(createur:
-                        self.appState.utilisateur.id, parentId: self.post.id, texte: self.commentaire)
+                    self.appState.creerCommentaireOuPost(createur: self.appState.utilisateur.id, parentId: self.post.id, texte: self.commentaire)
                     self.commentaire = ""
                 }){
                     Image(systemName: "tray.and.arrow.up.fill")

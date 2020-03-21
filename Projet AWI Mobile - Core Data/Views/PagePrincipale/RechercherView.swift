@@ -36,7 +36,6 @@ struct RechercherView: View {
                     ListPostView(rech: true, posts: postToPrint).navigationBarTitle("Recherche")
                 }
             }
-            
             TextField("Rechercher", text: $rechercher)
                 .padding(.horizontal, 20.0)
                 .frame(height: 40)
@@ -51,8 +50,7 @@ struct RechercherView: View {
                     NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main){ noti in
                         self.value = 0
                     }
-            }
-            
+            }.padding(.horizontal, 5)
         }.tabItem{
                 VStack{
                     Image(systemName: "magnifyingglass").font(.system(size: 25))
