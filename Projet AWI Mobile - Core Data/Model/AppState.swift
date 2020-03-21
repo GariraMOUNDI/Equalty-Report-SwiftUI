@@ -311,7 +311,6 @@ class AppState : ObservableObject {
                 print(data)
                 if let utilisateur = try? JSONDecoder().decode(Utilisateur.self, from: data) {
                     DispatchQueue.main.async {
-                        print(utilisateur.data.pseudo)
                         self.utilisateur = utilisateur
                     }
                     return

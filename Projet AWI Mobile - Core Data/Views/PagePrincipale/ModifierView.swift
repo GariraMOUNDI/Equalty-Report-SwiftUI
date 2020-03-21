@@ -91,7 +91,6 @@ struct ModifierView: View {
                         self.appState.requeteUtilisateur(self.ancienUtilisateur.data.pseudo, self.amdp, "", type: .Lire)
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                            print(self.appState.utilisateur.token ," ++++ Token ")
                                 if( self.appState.utilisateur.token == ""){
                                     self.alert = "L'ancien mot de passe ne correspond pas.\n Veuillez vérifier qu'il a été bien saisi"
                                     self.ancienMdp.toggle()
@@ -101,9 +100,7 @@ struct ModifierView: View {
                                         self.ancienMdp.toggle()
                                     }else{
                                         self.appState.requeteUtilisateur(pseudo, self.mdp, email, type: .Modifier)
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                            print(self.appState.utilisateur.data.pseudo, " +++ 55555 ")
-                                            self.appState.modifierUtilisateur.toggle()
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {                                            self.appState.modifierUtilisateur.toggle()
                                         })
                                         print("c'est bon !!")
                                     }

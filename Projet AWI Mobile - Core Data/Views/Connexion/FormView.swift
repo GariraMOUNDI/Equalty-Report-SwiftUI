@@ -23,8 +23,10 @@ struct FormView: View {
                         .font(.title)
                         .fontWeight(.medium)
                     TextField("Entrer votre pseudo", text: $pseudo)
-                    .padding(20).textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(20)
                         .frame(height: 40.0)
+                        .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
+                    .cornerRadius(10).shadow(radius: 5)
                 }.padding(.bottom)
                 
                 VStack(alignment: .leading, spacing: 10){
