@@ -14,6 +14,7 @@ class AppState : ObservableObject {
     @Published var utilisateur = Utilisateur()
     @Published var modifierUtilisateur : Bool = false
     @Published var commentaires : [Commentaire] = []
+    @Published var photos : [String] = []
     
     func getPost(){
         let url = URL(string: "http://project-awi-api.herokuapp.com/posts")!
@@ -23,9 +24,7 @@ class AppState : ObservableObject {
                 print(data)
                 if let posts = try? JSONDecoder().decode([Post].self, from: data) {
                     DispatchQueue.main.async {
-                        print(posts[0].id)
                         self.posts = posts
-                        print(Date())
                     }
                     return
                 }else{
@@ -99,10 +98,10 @@ class AppState : ObservableObject {
         let body : [String : String]
         if(parentId == ""){
             chemin = "posts"
-            body = ["createur" : createur, "texte": texte]
+            body = ["createur" : createur, "texte": texte, "dateCreation": Date().description]
         }else{
             chemin = "commentaires"
-            body = ["createur" : createur, "parentId" : parentId, "texte": texte]
+            body = ["createur" : createur, "parentId" : parentId, "texte": texte, "dateCreation": Date().description]
         }
         
         let url = URL(string: "http://project-awi-api.herokuapp.com/\(chemin)")!
@@ -257,7 +256,7 @@ class AppState : ObservableObject {
         case Lire, Creer, Modifier, Supprimer
     }
     
-    func requeteUtilisateur(_ pseudo:String = "", _ mdp: String = "", _ email: String = "", type: Crud){
+    func requeteUtilisateur(_ pseudo:String = "", _ mdp: String = "", _ email: String = "",_ photo: String = "", type: Crud){
         var chemin : String = ""
         var method : String = ""
         var withToken : Bool = false
@@ -273,7 +272,7 @@ class AppState : ObservableObject {
         case .Creer:
             method = "POST"
             chemin = "auth/createaccount"
-            body = ["pseudo" : pseudo, "mdp" : mdp, "email": email]
+            body = ["pseudo" : pseudo, "mdp" : mdp, "email": email, "photo": photo]
             withToken = false
             break
         case .Modifier:
@@ -327,6 +326,12 @@ class AppState : ObservableObject {
             }
             print("Erreur")
         }.resume()
+    }
+    
+    func downloadPhotos(number: Int){
+        for i in 1...number {
+            photos.append("img\(i)")
+        }
     }
 }
 

@@ -10,8 +10,8 @@ import SwiftUI
 
 struct PostView: View {
     @EnvironmentObject var appState : AppState
-    @State var post : Post
-    @State var commentaire : Commentaire
+    @State var post : Post! = nil
+    @State var commentaire : Commentaire! = nil
     var estUnCommentaire : Bool
     @State var texteSignaler : String = ""
     @State var aimer: Bool
@@ -60,7 +60,11 @@ struct PostView: View {
         VStack(alignment : mode){
             HStack(alignment: .top){
                 if (imgGauche){
-                    Image("Flame").resizable().frame(width: size, height: size).clipShape(Circle()).shadow(radius: 5)
+                    if(self.post != nil){
+                        Image(self.post.createur.photo).resizable().frame(width: size, height: size).clipShape(Circle()).shadow(radius: 5)
+                    }else{
+                        Image(self.commentaire.createur.photo).resizable().frame(width: size, height: size).clipShape(Circle()).shadow(radius: 5)
+                    }
                 }
                 if (imgDroite){
                     Spacer()
@@ -68,16 +72,30 @@ struct PostView: View {
                 
                 VStack(alignment: mode){
                     if(estUnCommentaire){
-                        Text(commentaire.createur.pseudo).bold()
+                        HStack{
+                            if(self.imgDroite){
+                                Text(commentaire.date).font(.system(size: 10))
+                                Spacer()
+                            }
+                            Text(commentaire.createur.pseudo).bold()
+                            if(imgGauche){
+                                Spacer()
+                                Text(commentaire.date).font(.system(size: 10))
+                            }
+                        }
                         Text(commentaire.texte)
                     }else{
-                        Text(post.createur.pseudo).bold()
+                        HStack{
+                            Text(post.createur.pseudo).bold()
+                            Spacer()
+                            Text(post.date).font(.system(size: 10))
+                        }
                         Text(post.texte)
                     }
                 }.shadow(radius: 1,y:1)
                 
                 if (imgDroite){
-                    Image("Flame").resizable().frame(width: size, height: size).clipShape(Circle()).shadow(radius: 5)
+                    Image(self.commentaire.createur.photo).resizable().frame(width: size, height: size).clipShape(Circle()).shadow(radius: 5)
                 }
             }
             
@@ -149,7 +167,7 @@ struct PostView: View {
                     return $0 != self.appState.utilisateur.id
                 })
             }
-            self.appState.ajouterLike(postToModify: self.commentaire)
+            self.appState.ajouterLike(postToModify: self.commentaire!)
         }else{
             self.aimer.toggle()
             if(self.aimer){
@@ -159,7 +177,7 @@ struct PostView: View {
                     return $0 != self.appState.utilisateur.id
                 })
             }
-            self.appState.ajouterLike(postToModify: self.post)
+            self.appState.ajouterLike(postToModify: self.post!)
         }
     }
     
@@ -176,7 +194,7 @@ struct PostView: View {
                 self.appState.utilisateur.id
             )
         }
-        let elementModifier : Any = self.estUnCommentaire ? self.commentaire : self.post
+        let elementModifier : Any = self.estUnCommentaire ? self.commentaire! : self.post!
         // Il faut l'en registrer dans la base de données
         self.appState.signalerPost(postToModify: elementModifier)
     }

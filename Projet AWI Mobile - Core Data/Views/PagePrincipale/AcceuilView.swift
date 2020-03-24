@@ -10,19 +10,6 @@ import SwiftUI
 
 struct AcceuilView: View {
     @EnvironmentObject var appState : AppState
-    var body: some View {
-        VStack{
-            if (self.appState.isConnected){
-                Acceuil()
-            }else{
-                Acceuil()
-            }
-        }
-    }
-}
-
-struct Acceuil: View {
-    @EnvironmentObject var appState : AppState
     
     var mode : NavigationBarItem.TitleDisplayMode {
         get {
@@ -77,6 +64,7 @@ struct BoutonEcrirePost : View {
             VStack{
                 if(details){
                     OneButton(image: "plus.circle.fill", postBouton: false)
+                    
                     OneButton(image: "pencil.circle.fill", postBouton: false)
                 }
                 Button(action: {

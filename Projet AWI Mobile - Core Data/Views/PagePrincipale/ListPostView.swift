@@ -26,12 +26,11 @@ struct ListPostView: View {
     var body: some View {
             List{
                 ForEach(postsToPrint) { post in
-                    PostView(post: post, commentaire: Commentaire(),
+                    PostView(post: post,
                              estUnCommentaire: false,
                              aimer: post.reactions.contains(self.appState.utilisateur.id),
                              signaler: self.appState.estSignaler(post: post),
                              size: 45)
-                    Text(post.date)
                 }.onDelete(perform: {
                     let index = Array($0)
                          let post = self.appState.posts[index[0]]
@@ -47,10 +46,4 @@ struct ListPostView: View {
             }
     }
 }
-/*
-struct ListPostView_Previews: PreviewProvider {
-    static var previews: some View {
-        ListPostView(samplePosts: [Post(id: 0, texte: "Moi",createur: "", commentaires: []), Post(id: 0, texte: "Toi",createur: "", commentaires: [])])
-    }
-}
-*/
+

@@ -17,11 +17,12 @@ struct InscriptionView: View {
     @State var alert : String = ""
     @EnvironmentObject var appState : AppState
     @State var inscrire : Bool = false
+    @State var imageChoisi : String = "Flame"
     
     var body: some View {
         VStack{
-            LogoView(bottom: 30)
-                .padding(.top, 70.0)
+            LogoView(bottom: 25)
+            ChooseImageScrollView(imageChoisi: self.$imageChoisi)
             ScrollView(.vertical){
                 VStack{
                     VStack(alignment: .leading, spacing: 10.0){
@@ -75,7 +76,7 @@ struct InscriptionView: View {
                         let email = self.email.trimmingCharacters(in: .whitespacesAndNewlines)
                         if(pseudo != "" && email != "" && self.mdp != "" && self.cmdp != ""){
                             if(self.mdp == self.cmdp){
-                                self.appState.requeteUtilisateur(pseudo, self.mdp, email, type: .Creer)
+                                self.appState.requeteUtilisateur(pseudo, self.mdp, email, self.imageChoisi, type: .Creer)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                                     if(self.appState.utilisateur.id != ""){
                                         self.appState.isConnected = true
@@ -102,7 +103,6 @@ struct InscriptionView: View {
                           dismissButton: .default(Text("Ok"), action: { self.inscrire.toggle() }))
                         }).shadow(radius: 10)
             }
-            Spacer()
         }
     }
 }

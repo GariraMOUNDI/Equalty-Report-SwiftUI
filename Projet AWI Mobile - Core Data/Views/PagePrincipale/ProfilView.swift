@@ -14,14 +14,14 @@ struct ProfilView: View {
     @State var mdp : String
     @State var cmdp : String
     @State var alert : Bool = false
+    @State var imageChoisi : String = "Flame"
     
     var body: some View {
         NavigationView {
         VStack {
             Spacer()
-            Image("Flame").resizable().frame(width: 100.0, height: 100.0).cornerRadius(20)
-            
             if (!self.appState.modifierUtilisateur){
+                Image("Flame").resizable().frame(width: 100.0, height: 100.0).cornerRadius(20)
                 HStack(spacing: 20.0){
                     VStack(alignment: .leading, spacing: 20.0){
                         Text("Pseudo : ")
@@ -51,6 +51,7 @@ struct ProfilView: View {
                 }
                 
             }else{
+                ChooseImageScrollView(imageChoisi: self.$imageChoisi)
                 ScrollView(.vertical){
                     ModifierView(email: self.appState.utilisateur.data.email, pseudo: self.appState.utilisateur.data.pseudo, mdp: "", amdp: "", cmdp: "",ancienUtilisateur: self.appState.utilisateur)
                 }

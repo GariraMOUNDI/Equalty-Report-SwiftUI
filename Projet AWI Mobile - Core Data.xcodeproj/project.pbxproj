@@ -33,6 +33,7 @@
 		618D15152413FF6600C0C069 /* CommentaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D15072413FF6600C0C069 /* CommentaireView.swift */; };
 		618D15162413FF6600C0C069 /* InscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D15092413FF6600C0C069 /* InscriptionView.swift */; };
 		618D15182414034900C0C069 /* Commentaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D15172414034900C0C069 /* Commentaire.swift */; };
+		61C592D12426A2A3005A7D2B /* ChooseImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C592D02426A2A3005A7D2B /* ChooseImageScrollView.swift */; };
 		61F0FC342415340A003DFA29 /* Donnees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F0FC332415340A003DFA29 /* Donnees.swift */; };
 /* End PBXBuildFile section */
 
@@ -86,6 +87,7 @@
 		618D15072413FF6600C0C069 /* CommentaireView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentaireView.swift; sourceTree = "<group>"; };
 		618D15092413FF6600C0C069 /* InscriptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InscriptionView.swift; sourceTree = "<group>"; };
 		618D15172414034900C0C069 /* Commentaire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commentaire.swift; sourceTree = "<group>"; };
+		61C592D02426A2A3005A7D2B /* ChooseImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseImageScrollView.swift; sourceTree = "<group>"; };
 		61F0FC332415340A003DFA29 /* Donnees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Donnees.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -236,6 +238,7 @@
 		618D15082413FF6600C0C069 /* Inscription */ = {
 			isa = PBXGroup;
 			children = (
+				61C592D02426A2A3005A7D2B /* ChooseImageScrollView.swift */,
 				618D15092413FF6600C0C069 /* InscriptionView.swift */,
 			);
 			path = Inscription;
@@ -388,6 +391,7 @@
 				618D15162413FF6600C0C069 /* InscriptionView.swift in Sources */,
 				618D15132413FF6600C0C069 /* ModifierView.swift in Sources */,
 				618D15122413FF6600C0C069 /* PostView.swift in Sources */,
+				61C592D12426A2A3005A7D2B /* ChooseImageScrollView.swift in Sources */,
 				618D14F72413FF3800C0C069 /* AppView.swift in Sources */,
 				618D150A2413FF6600C0C069 /* FormView.swift in Sources */,
 				618D14F52413FEED00C0C069 /* Post.swift in Sources */,

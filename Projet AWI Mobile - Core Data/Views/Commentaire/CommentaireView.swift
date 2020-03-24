@@ -20,7 +20,6 @@ struct CommentaireView: View {
             Text("Commentaires") .fontWeight(.medium).bold().font(.largeTitle).padding(.top, 20).padding(.leading, 20)
             
             PostView(post: post,
-                 commentaire: Commentaire(),
                  estUnCommentaire: false,
                  aimer: self.post.reactions.contains(self.appState.utilisateur.id),
                 signaler: self.appState.estSignaler(post: post),
@@ -28,7 +27,7 @@ struct CommentaireView: View {
             
             List{
                ForEach(self.appState.commentaires) { commentaire in
-                PostView(post: Post(), commentaire: commentaire, estUnCommentaire: true, aimer: commentaire.reactions.contains(self.appState.utilisateur.id),
+                PostView(commentaire: commentaire, estUnCommentaire: true, aimer: commentaire.reactions.contains(self.appState.utilisateur.id),
                          signaler: self.appState.estSignaler(post: commentaire),comment: true, size: 30)
                     
                }.onDelete(perform: {

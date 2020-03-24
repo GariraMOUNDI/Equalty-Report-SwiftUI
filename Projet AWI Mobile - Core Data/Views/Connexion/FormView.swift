@@ -67,6 +67,7 @@ struct FormView: View {
                 Text("Pas de compte ? Inscrivez-vous").foregroundColor(Color.blue)
             }.padding(.top, 10)
             Spacer()
+            
         }.padding(.horizontal, 20.0)
         
     }

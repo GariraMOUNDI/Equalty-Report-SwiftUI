@@ -42,18 +42,18 @@ struct RechercherView: View {
                 .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
                 .cornerRadius(10)
                 .offset(y: -self.value)
-                .onAppear{
-                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){ noti in
-                        let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-                        self.value = value.size.height                    }
-                    
-                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main){ noti in
-                        self.value = 0
-                    }
-            }.padding(.horizontal, 5)
+                .padding(.horizontal, 5)
         }.tabItem{
                 VStack{
                     Image(systemName: "magnifyingglass").font(.system(size: 25))
+                }
+        }.onAppear{
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){ noti in
+                    let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+                    self.value = value.size.height                    }
+                
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main){ noti in
+                    self.value = 0
                 }
         }
     }
@@ -65,3 +65,4 @@ struct RechercherView_Previews: PreviewProvider {
     }
 }
 */
+

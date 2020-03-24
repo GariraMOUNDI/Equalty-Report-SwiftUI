@@ -37,30 +37,30 @@ class Post : Identifiable, Codable{
             let seconds = interval % 60
             let minutes = (interval / 60) % 60
             let hours = (interval / 3600)
+        
             if(minutes == 0){
-                return "Il ya \(seconds)sec"
+                return "Il y a \(seconds)sec"
             }else{
                 if(hours == 0){
-                    return "Il ya \(minutes)min\(seconds)sec"
+                    return "Il y a \(minutes)min\(seconds)sec"
                 }else{
                     if(hours < 24){
-                        return "Il ya \(hours)h\(minutes)min\(seconds)sec"
+                        return "Il y a \(hours)h\(minutes)min\(seconds)sec"
                     }else{
                         formatter.dateFormat = "d MMM"
-                        return formatter.string(from: date)
+                        return "le " + formatter.string(from: date)
                     }
                 }
             }
-           
         } else {
            return dateCreation
         }
     }
-    
 }
 
 struct Createur : Codable {
     var _id : String = ""
     var pseudo : String = ""
+    var photo : String = ""
 }
 

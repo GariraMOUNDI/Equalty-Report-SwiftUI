@@ -17,17 +17,9 @@ struct LogoView: View {
                     .resizable()
                     .frame(width: 90, height: 90)
                     .cornerRadius(30)
-                
                     Text("Equal Report")
-                
-            }.padding(.bottom, bottom)
+            }.padding(.vertical, bottom)
         }
     }
 }
-/*
-struct LogoView_Previews: PreviewProvider {
-    static var previews: some View {
-        LogoView(bottom: 30)
-    }
-}
-*/
+
