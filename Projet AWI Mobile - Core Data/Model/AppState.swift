@@ -204,8 +204,8 @@ class AppState : ObservableObject {
         }
     }
     
-    func setUtilisateur(_ pseudo: String, _ mdp : String, _ email: String){
-        let utilisateur = Utilisateur(token: self.utilisateur.token, data: Data(_id: self.utilisateur.id, pseudo: pseudo, email: email, isAdmin: self.utilisateur.data.isAdmin))
+    func setUtilisateur(_ pseudo: String, _ mdp : String, _ email: String, _ photo: String){
+        let utilisateur = Utilisateur(token: self.utilisateur.token, data: Data(_id: self.utilisateur.id, pseudo: pseudo, email: email, isAdmin: self.utilisateur.data.isAdmin, photo: photo))
         self.utilisateur = utilisateur
     }
     
@@ -282,7 +282,8 @@ class AppState : ObservableObject {
                 "pseudo" : pseudo,
                 "email" : email,
                 "mdp" : mdp,
-                "isAdmin": utilisateur.data.isAdmin!
+                "isAdmin": utilisateur.data.isAdmin!,
+                "photo": photo
             ]
             withToken = true
             break
@@ -295,7 +296,6 @@ class AppState : ObservableObject {
         }
         
         let url = URL(string: "http://project-awi-api.herokuapp.com/\(chemin)")!
-        print(body)
         let finalBody = try! JSONSerialization.data(withJSONObject: body)
         
         var request = URLRequest(url: url)
@@ -307,7 +307,6 @@ class AppState : ObservableObject {
         request.setValue("application/json", forHTTPHeaderField: "Content-type")
         URLSession.shared.dataTask(with: request){data,_,_  in
             if let data = data {
-                print(data)
                 if let utilisateur = try? JSONDecoder().decode(Utilisateur.self, from: data) {
                     DispatchQueue.main.async {
                         self.utilisateur = utilisateur
@@ -315,7 +314,7 @@ class AppState : ObservableObject {
                     return
                 }else{
                     if(type == .Modifier){
-                        self.setUtilisateur(pseudo, mdp, email)
+                        self.setUtilisateur(pseudo, mdp, email, photo)
                     }else{
                         DispatchQueue.main.async {
                             self.utilisateur = Utilisateur()

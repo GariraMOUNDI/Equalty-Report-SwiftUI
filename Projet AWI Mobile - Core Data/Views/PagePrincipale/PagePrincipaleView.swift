@@ -18,9 +18,9 @@ struct PagePrincipaleView: View {
                     }
             }.tag(1)
             
-            RechercherView(posts: self.appState.posts, rechercher: "").tag(2)
+            RechercherView(posts: self.appState.posts).tag(2)
             
-            ProfilView(mdp: "", cmdp: "").tag(3)
+            ProfilView(imageChoisi: self.appState.utilisateur.data.photo).tag(3)
         }
     }
 }

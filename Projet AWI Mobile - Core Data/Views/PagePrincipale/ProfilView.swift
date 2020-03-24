@@ -11,10 +11,10 @@ import SwiftUI
 struct ProfilView: View {
     @EnvironmentObject var appState : AppState
     @State var edit : Bool = false
-    @State var mdp : String
-    @State var cmdp : String
+    @State var mdp : String = ""
+    @State var cmdp : String = ""
     @State var alert : Bool = false
-    @State var imageChoisi : String = "Flame"
+    @State var imageChoisi : String = ""
     
     var body: some View {
         NavigationView {
@@ -53,7 +53,7 @@ struct ProfilView: View {
             }else{
                 ChooseImageScrollView(imageChoisi: self.$imageChoisi)
                 ScrollView(.vertical){
-                    ModifierView(email: self.appState.utilisateur.data.email, pseudo: self.appState.utilisateur.data.pseudo, mdp: "", amdp: "", cmdp: "",ancienUtilisateur: self.appState.utilisateur)
+                    ModifierView(email: self.appState.utilisateur.data.email, pseudo: self.appState.utilisateur.data.pseudo, mdp: "", amdp: "", cmdp: "",ancienUtilisateur: self.appState.utilisateur, imageChoisi: self.$imageChoisi)
                 }
             }
             Spacer().navigationBarTitle("Profil")

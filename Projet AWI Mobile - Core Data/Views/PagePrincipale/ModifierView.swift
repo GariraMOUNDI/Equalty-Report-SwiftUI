@@ -19,6 +19,7 @@ struct ModifierView: View {
     @State var  ancienMdp :  Bool = false
     @State var  alert : String = ""
     @State var ancienUtilisateur : Utilisateur
+    @Binding var imageChoisi : String
     
     var body: some View {
         VStack{
@@ -99,8 +100,9 @@ struct ModifierView: View {
                                         self.alert = "Le mot de passe confirmer ne correspond pas. \n Veuillez saisir exactement votre nouveau mot de passe pour le confirmer"
                                         self.ancienMdp.toggle()
                                     }else{
-                                        self.appState.requeteUtilisateur(pseudo, self.mdp, email, type: .Modifier)
+                                        self.appState.requeteUtilisateur(pseudo, self.mdp, email, self.imageChoisi, type: .Modifier)
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {                                            self.appState.modifierUtilisateur.toggle()
+                                                self.appState.getPost()
                                         })
                                         print("c'est bon !!")
                                     }

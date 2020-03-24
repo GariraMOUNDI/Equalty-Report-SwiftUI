@@ -11,7 +11,7 @@ import SwiftUI
 struct RechercherView: View {
     
     var posts : [Post]
-    @State var rechercher :  String
+    @State var rechercher : String = ""
     @State var value : CGFloat = 0
     var postToPrint : [Post]{
         get{
