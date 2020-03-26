@@ -15,6 +15,7 @@ class AppState : ObservableObject {
     @Published var modifierUtilisateur : Bool = false
     @Published var commentaires : [Commentaire] = []
     @Published var photos : [String] = []
+    @Published var check = Message()
     
     func getPost(){
         let url = URL(string: "http://project-awi-api.herokuapp.com/posts")!
@@ -205,13 +206,41 @@ class AppState : ObservableObject {
         }
     }
     
-    func checkExistance(pseudo : String){
+    func checkExistance(pseudo : String) {
+        let url = URL(string: "http://project-awi-api.herokuapp.com/utilisateurs/verification")!
         
+        let body = [ "pseudo" : pseudo ]
+        let finalBody = try! JSONSerialization.data(withJSONObject: body)
+        
+        var request = URLRequest(url: url)
+        request.httpBody = finalBody
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(self.utilisateur.token)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-type")
+        
+        URLSession.shared.dataTask(with: request){data,_,_  in
+                if let data = data {
+                    print(data)
+                        if let check = try? JSONDecoder().decode(Message.self, from: data) {
+                            DispatchQueue.main.async {
+                                self.check = check
+                            }
+                            return
+                        }else{
+                            print("Echec de création de post !!!")
+                        }
+                }else{
+                    print("Pas de commentaire ou post !!!")
+                }
+            print("Erreur !!!")
+        }.resume()
     }
     
     func setUtilisateur(_ pseudo: String, _ mdp : String, _ email: String, _ photo: String){
         let utilisateur = Utilisateur(token: self.utilisateur.token, data: Data(_id: self.utilisateur.id, pseudo: pseudo, email: email, isAdmin: self.utilisateur.data.isAdmin, photo: photo))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute:  {
             self.utilisateur = utilisateur
+        })
     }
     
     
@@ -300,6 +329,7 @@ class AppState : ObservableObject {
             body = [:]
             withToken = true
             break
+            
         }
         print(body)
         let url = URL(string: "http://project-awi-api.herokuapp.com/\(chemin)")!

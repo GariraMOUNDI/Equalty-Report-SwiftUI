@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6126B722242D5A18001812CD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6126B721242D5A18001812CD /* Message.swift */; };
 		618D14B52413FDA700C0C069 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D14B42413FDA700C0C069 /* AppDelegate.swift */; };
 		618D14B72413FDA700C0C069 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D14B62413FDA700C0C069 /* SceneDelegate.swift */; };
 		618D14BA2413FDA700C0C069 /* Projet_AWI_Mobile_-_Core_Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 618D14B82413FDA700C0C069 /* Projet_AWI_Mobile_-_Core_Data.xcdatamodeld */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6126B721242D5A18001812CD /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		618D14B12413FDA700C0C069 /* Projet AWI Mobile - Core Data.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Projet AWI Mobile - Core Data.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		618D14B42413FDA700C0C069 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		618D14B62413FDA700C0C069 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				618D14F02413FEED00C0C069 /* Utilisateur.swift */,
 				618D15172414034900C0C069 /* Commentaire.swift */,
 				61F0FC332415340A003DFA29 /* Donnees.swift */,
+				6126B721242D5A18001812CD /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				618D150A2413FF6600C0C069 /* FormView.swift in Sources */,
 				618D14F52413FEED00C0C069 /* Post.swift in Sources */,
 				618D15112413FF6600C0C069 /* AcceuilView.swift in Sources */,
+				6126B722242D5A18001812CD /* Message.swift in Sources */,
 				618D14B72413FDA700C0C069 /* SceneDelegate.swift in Sources */,
 				618D150E2413FF6600C0C069 /* ListPostView.swift in Sources */,
 			);

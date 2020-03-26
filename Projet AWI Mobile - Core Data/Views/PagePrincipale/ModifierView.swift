@@ -88,24 +88,41 @@ struct ModifierView: View {
                 Button(action: {
                     let pseudo = self.pseudo.trimmingCharacters(in: .whitespacesAndNewlines)
                     let email = self.email.trimmingCharacters(in: .whitespacesAndNewlines)
+                    let ancienPseudo = self.ancienUtilisateur.data.pseudo
+                    
                     if (pseudo != "" && email != "" && self.amdp != "" && self.mdp != "" && self.cmdp != ""){
-                        self.appState.requeteUtilisateur(pseudo: self.ancienUtilisateur.data.pseudo, mdp : self.amdp, type: .Lire)
+                        self.appState.requeteUtilisateur(pseudo: ancienPseudo, mdp : self.amdp, type: .Lire)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                                 if( self.appState.utilisateur.token == ""){
                                     self.alert = "L'ancien mot de passe ne correspond pas.\n Veuillez vérifier qu'il a été bien saisi"
                                     self.ancienMdp.toggle()
                                 }else{
-                                    
-                                        if(self.mdp != self.cmdp){
-                                            self.alert = "Le mot de passe confirmer ne correspond pas. \n Veuillez saisir exactement votre nouveau mot de passe pour le confirmer"
-                                            self.ancienMdp.toggle()
-                                        }else{
-                                            self.appState.requeteUtilisateur(pseudo: pseudo, mdp: self.mdp, email: email, photo: self.imageChoisi, type: .Modifier)
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {                                            self.appState.modifierUtilisateur.toggle()
+                                    var executer = true
+                                    if(pseudo != ancienPseudo){
+                                        self.appState.checkExistance(pseudo: pseudo)
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                                            if(!self.appState.check.success){
+                                                executer = false
+                                            }
+                                        })
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute:  {
+                                        if(executer){
+                                            if(self.mdp != self.cmdp){
+                                                self.alert = "Le mot de passe confirmer ne correspond pas. \n Veuillez saisir exactement votre nouveau mot de passe pour le confirmer"
+                                                self.ancienMdp.toggle()
+                                            }else{
+                                                self.appState.requeteUtilisateur(pseudo: pseudo, mdp: self.mdp, email: email, photo: self.imageChoisi, type: .Modifier)
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {                                   self.appState.modifierUtilisateur.toggle()
                                                     self.appState.getPost()
-                                            })
-                                            print("c'est bon !!")
+                                                })
+                                                print("c'est bon !!")
+                                            }
+                                        }else{
+                                            self.alert = "Ce Pseudo existe déjà.\n Veuillez choisir un Pseudo différent de celui ci."
+                                            self.ancienMdp.toggle()
                                         }
+                                    })
                                 }
                         })
                     }else{
