@@ -67,11 +67,7 @@ struct ProfilView: View {
                   message: Text("Voulez-vous vriment supprimer ce compte ?\n Cet action est irréversible."),
                   primaryButton: .destructive(Text("Oui"), action: {
                         self.appState.requeteUtilisateur(type: .Supprimer)
-                        self.appState.getPost()
-                        DispatchQueue.main.asyncAfter(deadline: .now()+0.3, execute: {
-                            self.appState.isConnected = false
-                        })
-                  }),
+                }),
                   secondaryButton: .default(Text("Non"), action: {
                         self.alert.toggle()
                   }))

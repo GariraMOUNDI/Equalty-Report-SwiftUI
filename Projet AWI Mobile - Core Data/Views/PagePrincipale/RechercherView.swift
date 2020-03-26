@@ -15,9 +15,14 @@ struct RechercherView: View {
     @State var value : CGFloat = 0
     var postToPrint : [Post]{
         get{
-            return posts.filter({
-                return $0.texte.lowercased().contains(self.rechercher.lowercased()) || $0.createur.pseudo.lowercased().contains(self.rechercher.lowercased())
-            })
+            if(posts.count != 0){
+                return posts.filter({
+                    return $0.texte.lowercased().contains(self.rechercher.lowercased()) || $0.createur.pseudo.lowercased().contains(self.rechercher.lowercased())
+                })
+            }else{
+                return []
+            }
+            
         }
     }
     

@@ -43,7 +43,7 @@ struct FormView: View {
             }.padding(.bottom, topButton)
             
                 Button(action: {
-                    self.appState.requeteUtilisateur(self.pseudo.trimmingCharacters(in: .whitespacesAndNewlines), self.mdp, "", type: .Lire)
+                    self.appState.requeteUtilisateur(pseudo: self.pseudo.trimmingCharacters(in: .whitespacesAndNewlines), mdp: self.mdp, email: "", type: .Lire)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
                         if (self.appState.utilisateur.token != ""){
                             self.appState.getPost()

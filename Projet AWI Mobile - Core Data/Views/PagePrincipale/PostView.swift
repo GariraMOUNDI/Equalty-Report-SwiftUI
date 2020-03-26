@@ -83,14 +83,14 @@ struct PostView: View {
                                 Text(commentaire.date).font(.system(size: 10))
                             }
                         }
-                        Text(commentaire.texte)
+                        Text(commentaire.texte).lineLimit(nil)
                     }else{
                         HStack{
                             Text(post.createur.pseudo).bold()
                             Spacer()
                             Text(post.date).font(.system(size: 10))
                         }
-                        Text(post.texte)
+                        Text(post.texte).lineLimit(nil)
                     }
                 }.shadow(radius: 1,y:1)
                 
@@ -136,7 +136,6 @@ struct PostView: View {
                         }.sheet(isPresented: self.$com , onDismiss: {
                             self.com = false
                             self.appState.commentaires = []
-                            //self.appState.getPost()
                         }, content: {
                             CommentaireView(post: self.post, commentaire: "").environmentObject(self.appState)
                         })
@@ -147,19 +146,18 @@ struct PostView: View {
                     Button(action: {}) {
                         Image(systemName: "exclamationmark.triangle").foregroundColor(signaler ? Color.red : Color.blue)
                     }.onTapGesture{
-                        self.signaler = true
                         self.signalerPost()
                     }
                     Spacer()
                 }
             }
         }
-        
     }
     
     func aimerPost(){
+        self.aimer.toggle()
         if(self.estUnCommentaire){
-            self.aimer.toggle()
+            
             if(self.aimer){
                 self.commentaire.reactions.append(self.appState.utilisateur.id)
             }else{
@@ -169,7 +167,6 @@ struct PostView: View {
             }
             self.appState.ajouterLike(postToModify: self.commentaire!)
         }else{
-            self.aimer.toggle()
             if(self.aimer){
                 self.post.reactions.append(self.appState.utilisateur.id)
             }else{
@@ -182,21 +179,26 @@ struct PostView: View {
     }
     
     func signalerPost(){
-        if (self.estUnCommentaire){
-            let deja = self.commentaire.signaler.filter({ return $0  == self.appState.utilisateur.id}).count
-            if(deja == 0){
-                self.commentaire.signaler.append(
-                    self.appState.utilisateur.id
-                )
+        self.signaler.toggle()
+        if(self.estUnCommentaire){
+            if(self.signaler){
+                self.commentaire.signaler.append(self.appState.utilisateur.id)
+            }else{
+                self.commentaire.signaler = self.commentaire.signaler.filter({
+                    return $0 != self.appState.utilisateur.id
+                })
             }
+           self.appState.signalerPost(postToModify: self.commentaire!)
         }else{
-            self.post.signaler.append(
-                self.appState.utilisateur.id
-            )
+            if(self.signaler){
+                self.post.signaler.append(self.appState.utilisateur.id)
+            }else{
+                self.post.signaler = self.post.signaler.filter({
+                    return $0 != self.appState.utilisateur.id
+                })
+            }
+           self.appState.signalerPost(postToModify: self.post!)
         }
-        let elementModifier : Any = self.estUnCommentaire ? self.commentaire! : self.post!
-        // Il faut l'en registrer dans la base de données
-        self.appState.signalerPost(postToModify: elementModifier)
     }
 }
 

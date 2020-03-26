@@ -167,7 +167,8 @@ class AppState : ObservableObject {
                      "pseudo": postToModify.createur.pseudo] ,
                 "texte": postToModify.texte, "id": postToModify.id,
                 "dateCreation": postToModify.dateCreation,
-                "reactions": postToModify.reactions
+                "reactions": postToModify.reactions,
+                "signaler": postToModify.signaler
             ]
             
             let finalBody = try! JSONSerialization.data(withJSONObject: body)
@@ -187,7 +188,7 @@ class AppState : ObservableObject {
             //Enregistrement dans la base de données
             let url = URL(string: "http://project-awi-api.herokuapp.com/commentaires/\(commentaireToModify.id)")!
             
-            let body : [String : Any] = ["createur" : ["_id" : commentaireToModify.createur._id, "pseudo": commentaireToModify.createur.pseudo] , "texte": commentaireToModify.texte, "id": commentaireToModify.id, "dateCreation": commentaireToModify.dateCreation, "reactions": commentaireToModify.reactions]
+            let body : [String : Any] = ["createur" : ["_id" : commentaireToModify.createur._id, "pseudo": commentaireToModify.createur.pseudo] , "texte": commentaireToModify.texte, "id": commentaireToModify.id, "dateCreation": commentaireToModify.dateCreation, "reactions": commentaireToModify.reactions, "signaler" : commentaireToModify.signaler ]
             
             let finalBody = try! JSONSerialization.data(withJSONObject: body)
             
@@ -204,10 +205,18 @@ class AppState : ObservableObject {
         }
     }
     
+    func checkExistance(pseudo : String){
+        
+    }
+    
     func setUtilisateur(_ pseudo: String, _ mdp : String, _ email: String, _ photo: String){
         let utilisateur = Utilisateur(token: self.utilisateur.token, data: Data(_id: self.utilisateur.id, pseudo: pseudo, email: email, isAdmin: self.utilisateur.data.isAdmin, photo: photo))
-        self.utilisateur = utilisateur
+        DispatchQueue.main.asyncAfter(deadline: .now + 0.1) {
+            self.utilisateur = utilisateur
+        }
     }
+    
+    
     
     func estSignaler(post: Any) -> Bool{
         var number : Int
@@ -256,7 +265,7 @@ class AppState : ObservableObject {
         case Lire, Creer, Modifier, Supprimer
     }
     
-    func requeteUtilisateur(_ pseudo:String = "", _ mdp: String = "", _ email: String = "",_ photo: String = "", type: Crud){
+    func requeteUtilisateur(pseudo:String = "", mdp: String = "", email: String = "", photo: String = "", type: Crud){
         var chemin : String = ""
         var method : String = ""
         var withToken : Bool = false
@@ -294,7 +303,7 @@ class AppState : ObservableObject {
             withToken = true
             break
         }
-        
+        print(body)
         let url = URL(string: "http://project-awi-api.herokuapp.com/\(chemin)")!
         let finalBody = try! JSONSerialization.data(withJSONObject: body)
         
@@ -317,6 +326,10 @@ class AppState : ObservableObject {
                         self.setUtilisateur(pseudo, mdp, email, photo)
                     }else{
                         DispatchQueue.main.async {
+                            if(type == .Supprimer){
+                                self.isConnected = false
+                                self.getPost()
+                            }
                             self.utilisateur = Utilisateur()
                             print("Cannot parse the result to Utilisateur !!!")
                         }

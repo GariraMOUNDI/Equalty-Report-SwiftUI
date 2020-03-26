@@ -89,23 +89,23 @@ struct ModifierView: View {
                     let pseudo = self.pseudo.trimmingCharacters(in: .whitespacesAndNewlines)
                     let email = self.email.trimmingCharacters(in: .whitespacesAndNewlines)
                     if (pseudo != "" && email != "" && self.amdp != "" && self.mdp != "" && self.cmdp != ""){
-                        self.appState.requeteUtilisateur(self.ancienUtilisateur.data.pseudo, self.amdp, "", type: .Lire)
-                        
+                        self.appState.requeteUtilisateur(pseudo: self.ancienUtilisateur.data.pseudo, mdp : self.amdp, type: .Lire)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                                 if( self.appState.utilisateur.token == ""){
                                     self.alert = "L'ancien mot de passe ne correspond pas.\n Veuillez vérifier qu'il a été bien saisi"
                                     self.ancienMdp.toggle()
                                 }else{
-                                    if(self.mdp != self.cmdp){
-                                        self.alert = "Le mot de passe confirmer ne correspond pas. \n Veuillez saisir exactement votre nouveau mot de passe pour le confirmer"
-                                        self.ancienMdp.toggle()
-                                    }else{
-                                        self.appState.requeteUtilisateur(pseudo, self.mdp, email, self.imageChoisi, type: .Modifier)
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {                                            self.appState.modifierUtilisateur.toggle()
-                                                self.appState.getPost()
-                                        })
-                                        print("c'est bon !!")
-                                    }
+                                    
+                                        if(self.mdp != self.cmdp){
+                                            self.alert = "Le mot de passe confirmer ne correspond pas. \n Veuillez saisir exactement votre nouveau mot de passe pour le confirmer"
+                                            self.ancienMdp.toggle()
+                                        }else{
+                                            self.appState.requeteUtilisateur(pseudo: pseudo, mdp: self.mdp, email: email, photo: self.imageChoisi, type: .Modifier)
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {                                            self.appState.modifierUtilisateur.toggle()
+                                                    self.appState.getPost()
+                                            })
+                                            print("c'est bon !!")
+                                        }
                                 }
                         })
                     }else{
