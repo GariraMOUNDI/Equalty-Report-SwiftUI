@@ -211,9 +211,7 @@ class AppState : ObservableObject {
     
     func setUtilisateur(_ pseudo: String, _ mdp : String, _ email: String, _ photo: String){
         let utilisateur = Utilisateur(token: self.utilisateur.token, data: Data(_id: self.utilisateur.id, pseudo: pseudo, email: email, isAdmin: self.utilisateur.data.isAdmin, photo: photo))
-        DispatchQueue.main.asyncAfter(deadline: .now + 0.1) {
             self.utilisateur = utilisateur
-        }
     }
     
     
