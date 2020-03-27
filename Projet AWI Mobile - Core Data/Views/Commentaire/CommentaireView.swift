@@ -45,18 +45,8 @@ struct CommentaireView: View {
             }
             
             HStack{
-                TextField("Commenter", text: self.$commentaire)
-                    .padding(20)
-                        .frame(height: 40.0)
-                        .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                    .cornerRadius(10)
-                Button(action: {
-                    self.appState.creerCommentaireOuPost(createur: self.appState.utilisateur.id, parentId: self.post.id, texte: self.commentaire)
-                    self.commentaire = ""
-                }){
-                    Image(systemName: "tray.and.arrow.up.fill")
-                        .font(.system(size: 25)).foregroundColor(Color.blue)
-                }
+                TextView(placeholderText: "Commenter ...", text: self.$commentaire).frame(numLines: 2).cornerRadius(20)
+                BoutonCommenter(commentaire: self.$commentaire, post: self.$post)
             }.padding(.horizontal, 10)
             .offset(y: -self.value)
             .onAppear{
@@ -76,10 +66,24 @@ struct CommentaireView: View {
     }
 }
 
-/*struct CommentaireView_Previews: PreviewProvider {
-    static var previews: some View {
-        CommentaireView(post: Post(id: 0, texte: "MOI",createur: "",
-                                   commentaires: [Post(id: 0, texte: "Commentaire",createur: "", commentaires: [])]), commentaire: "")
+struct BoutonCommenter : View {
+    
+    @EnvironmentObject var appState : AppState
+    @Binding var commentaire : String
+    @Binding var post : Post
+    
+    var body : some View {
+        ZStack{
+            Circle().foregroundColor(.white).frame(width: 35, height: 35)
+            Button(action: {
+                self.appState.creerCommentaireOuPost(createur: self.appState.utilisateur.id, parentId: self.post.id, texte: self.commentaire)
+                self.commentaire = ""
+                UIApplication.shared.keyWindow?.endEditing(true)
+            }){
+                Image(systemName: "tray.and.arrow.up.fill")
+                    .font(.system(size: 25)).foregroundColor(Color.blue)
+            }
+        }
+        
     }
 }
-*/

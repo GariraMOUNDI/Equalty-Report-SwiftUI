@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6126B722242D5A18001812CD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6126B721242D5A18001812CD /* Message.swift */; };
+		61782834242E3C99008DB1DB /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61782833242E3C99008DB1DB /* TextView.swift */; };
 		618D14B52413FDA700C0C069 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D14B42413FDA700C0C069 /* AppDelegate.swift */; };
 		618D14B72413FDA700C0C069 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D14B62413FDA700C0C069 /* SceneDelegate.swift */; };
 		618D14BA2413FDA700C0C069 /* Projet_AWI_Mobile_-_Core_Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 618D14B82413FDA700C0C069 /* Projet_AWI_Mobile_-_Core_Data.xcdatamodeld */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		6126B721242D5A18001812CD /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		61782833242E3C99008DB1DB /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		618D14B12413FDA700C0C069 /* Projet AWI Mobile - Core Data.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Projet AWI Mobile - Core Data.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		618D14B42413FDA700C0C069 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		618D14B62413FDA700C0C069 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				618D15172414034900C0C069 /* Commentaire.swift */,
 				61F0FC332415340A003DFA29 /* Donnees.swift */,
 				6126B721242D5A18001812CD /* Message.swift */,
+				61782833242E3C99008DB1DB /* TextView.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				618D14F42413FEED00C0C069 /* AppState.swift in Sources */,
 				618D15182414034900C0C069 /* Commentaire.swift in Sources */,
 				618D15162413FF6600C0C069 /* InscriptionView.swift in Sources */,
+				61782834242E3C99008DB1DB /* TextView.swift in Sources */,
 				618D15132413FF6600C0C069 /* ModifierView.swift in Sources */,
 				618D15122413FF6600C0C069 /* PostView.swift in Sources */,
 				61C592D12426A2A3005A7D2B /* ChooseImageScrollView.swift in Sources */,
