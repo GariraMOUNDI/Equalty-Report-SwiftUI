@@ -137,7 +137,7 @@ struct ModifierView: View {
                         dismissButton: .default(Text("Ok"), action: { self.ancienMdp.toggle() }))
                     }).shadow(radius: 10)
             }
-    }
+        }.padding(.horizontal, 20)
         
 }
 }

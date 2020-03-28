@@ -32,7 +32,7 @@ struct EcrirePostView: View {
                     .fontWeight(.medium).bold().font(.system(size: 15)).padding(.top, 20).multilineTextAlignment(.center)
                 TextView(placeholderText: "Ecrivez un post ...", text: self.$texte).frame(numLines: 15).cornerRadius(15)
                 Image("Flame").resizable()
-                    .frame(width: 130, height: 130, alignment: .center).cornerRadius(40).opacity(0.5)
+                    .frame(width: 130, height: 130, alignment: .center).cornerRadius(40).opacity(0.5).shadow(radius: 10)
             }.padding(.top, 30)
             Spacer()
         }.padding(.horizontal, 15)

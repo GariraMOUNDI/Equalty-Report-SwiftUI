@@ -17,9 +17,8 @@ struct LogoView: View {
                     .resizable()
                     .frame(width: 90, height: 90)
                     .cornerRadius(30)
-                    Text("Equal Report")
+                Text("Equal Report").font(.system(size: 40)).bold()
             }.padding(.vertical, bottom)
         }
     }
 }
-

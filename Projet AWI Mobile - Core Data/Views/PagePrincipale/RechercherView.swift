@@ -27,19 +27,23 @@ struct RechercherView: View {
     }
     
     var body: some View {
-        VStack {
+            VStack {
             NavigationView {
-                if (postToPrint.count == 0 ) {
-                    VStack{
-                        Spacer()
-                        Text("Veuillez saisir un mot ou une expression que vous avez lu.")
-                            .multilineTextAlignment(.center)
-                            .frame(width: 200.0).foregroundColor(Color.gray)
-                        Spacer()
-                    }.navigationBarTitle("Recherche")
-                }else{
-                    ListPostView(rech: true, posts: postToPrint).navigationBarTitle("Recherche")
-                }
+                    
+                    if (postToPrint.count == 0 ) {
+                        VStack{
+                            Spacer()
+                            Text("Veuillez saisir un mot ou une expression que vous avez lu.")
+                                .multilineTextAlignment(.center)
+                                .frame(width: 200.0).foregroundColor(Color.gray)
+                            Image("Flame").resizable()
+                                .frame(width: 200, height: 200, alignment: .center).cornerRadius(40).opacity(0.3).shadow(radius: 10)
+                            Spacer()
+                        }.navigationBarTitle("Recherche")
+                    }else{
+                        ListPostView(rech: true, posts: postToPrint).navigationBarTitle("Recherche")
+                    }
+                
             }
             TextField("Rechercher", text: $rechercher)
                 .padding(.horizontal, 20.0)
@@ -49,9 +53,7 @@ struct RechercherView: View {
                 .offset(y: -self.value)
                 .padding(.horizontal, 5)
         }.tabItem{
-                VStack{
-                    Image(systemName: "magnifyingglass").font(.system(size: 25))
-                }
+            Image(systemName: "magnifyingglass").font(.system(size: 25))
         }.onAppear{
                 NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){ noti in
                     let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
