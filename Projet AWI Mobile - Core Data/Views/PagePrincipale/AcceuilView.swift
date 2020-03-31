@@ -107,6 +107,8 @@ struct OneButton : View {
     @State var postBouton : Bool = false
     @Binding var filtre : Bool
     var tag : Int
+    @State var couleur : Bool = false
+    @State var texte : String = ""
     
     var body : some View{
         ZStack{
@@ -130,7 +132,7 @@ struct OneButton : View {
                 ,onDismiss: {
                     self.postBouton = false
                 }, content: {
-                    EcrirePostView(texte: "", postBouton: self.$postBouton).environmentObject(self.appState)
+                    EcrirePostView(texte: self.$texte, postBouton: self.$postBouton, changerCouleur: self.$couleur).environmentObject(self.appState)
                 })
             }.transition(.move(edge: .top))
     }

@@ -9,10 +9,10 @@
 import SwiftUI
 
 struct EcrirePostView: View {
-    @State var texte : String
-    @Binding var postBouton : Bool
-    @State var responder : Bool = false
     @EnvironmentObject var appState : AppState
+    @Binding var texte : String
+    @Binding var postBouton : Bool
+    @Binding var changerCouleur : Bool
     var signaler : Bool = false
     var title : String {
         get{
@@ -48,8 +48,15 @@ struct EcrirePostView: View {
                     .fontWeight(.medium).bold().font(.largeTitle).padding(.top, 20)
                 Spacer()
                 Button(action: {
-                    self.appState.creerCommentaireOuPost(createur: self.appState.utilisateur.id, parentId: "", texte: self.texte)
-                    self.postBouton.toggle()
+                    if (!self.signaler){
+                        self.appState.creerCommentaireOuPost(createur: self.appState.utilisateur.id, parentId: "", texte: self.texte)
+                        self.postBouton.toggle()
+                    }else{
+                        self.postBouton.toggle()
+                        if(self.texte.trimmingCharacters(in: .whitespacesAndNewlines) != ""){
+                            self.changerCouleur.toggle()
+                        }
+                    }
                 }){
                     Image(systemName: "tray.and.arrow.up.fill")
                         .font(.system(size: 30)).foregroundColor(Color(red: 93/255, green: 93/255, blue: 187/255))

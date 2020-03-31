@@ -19,11 +19,13 @@ struct CommentaireView: View {
         VStack(alignment: .leading){
             Text("Commentaires") .fontWeight(.medium).bold().font(.largeTitle).padding(.top, 20).padding(.leading, 20)
             
-            PostView(post: post,
+            VStack{
+                PostView(post: post,
                  estUnCommentaire: false,
                  aimer: self.post.reactions.contains(self.appState.utilisateur.id),
                  signaler: self.appState.estSignaler(postOuComment: post),
                 comment: true, size: 45).padding(.horizontal, 20)
+                }.shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0).shadow(radius: 10)
             
             List{
                ForEach(self.appState.commentaires) { commentaire in

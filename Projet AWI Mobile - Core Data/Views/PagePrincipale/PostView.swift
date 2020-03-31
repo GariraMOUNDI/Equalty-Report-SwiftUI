@@ -17,6 +17,7 @@ struct PostView: View {
     @State var aimer: Bool
     @State var signaler : Bool
     @State var com : Bool = false
+    @State var postBouton : Bool = false
     var comment : Bool = false
     var couleurGauche : Color {
         get {
@@ -180,8 +181,20 @@ struct PostView: View {
                     Button(action: {}) {
                         Image(systemName: "exclamationmark.triangle").foregroundColor(signaler ? Color.red : Color.blue)
                     }.onTapGesture{
-                        self.signalerPost(texte: "Moi")
-                    }
+                        if(self.signaler){
+                            self.signaler = false
+                            self.signalerPost(texte: "")
+                        }else{
+                            self.postBouton.toggle()
+                        }
+                    }.sheet(isPresented: self.$postBouton,
+                            onDismiss: {
+                                self.postBouton = false
+                                self.signalerPost(texte: self.texteSignaler)
+                    },
+                            content: {
+                                EcrirePostView(texte: self.$texteSignaler, postBouton: self.$postBouton, changerCouleur: self.$signaler, signaler: true)
+                            })
                     Spacer()
                 }
             }
@@ -215,7 +228,6 @@ struct PostView: View {
     }
     
     func signalerPost(texte : String){
-        self.signaler.toggle()
         if(self.estUnCommentaire){
             if(self.signaler){
                 self.commentaire.signaler.append(Signaler(_id : self.appState.utilisateur.id, texte: texte))
