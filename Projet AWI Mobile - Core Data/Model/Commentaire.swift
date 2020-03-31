@@ -15,7 +15,7 @@ struct Commentaire : Identifiable, Codable {
     var createur : Createur!
     var parentId : String = ""
     var dateCreation : String = ""
-    var signaler : [String] = []
+    var signaler : [Signaler] = []
     var id : String {   // Pour Identifiable
         get {
             return _id
@@ -55,5 +55,5 @@ struct Commentaire : Identifiable, Codable {
            return dateCreation
         }
     }
-
+    
 }

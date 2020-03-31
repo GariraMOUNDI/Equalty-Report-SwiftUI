@@ -32,7 +32,7 @@ struct ModifierView: View {
                     .padding(20)
                         .frame(height: 40.0)
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                    .cornerRadius(10).shadow(radius: 5)
+                    .cornerRadius(10).shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0)
             }
             VStack(alignment: .leading, spacing: 10){
                 Text("E-mail")
@@ -42,7 +42,7 @@ struct ModifierView: View {
                     .padding(20)
                         .frame(height: 40.0)
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                    .cornerRadius(10).shadow(radius: 5)
+                    .cornerRadius(10).shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0)
             }
             VStack(alignment: .leading, spacing: 10){
                 Text("Ancien mot de passe")
@@ -52,7 +52,7 @@ struct ModifierView: View {
                     .padding(20)
                         .frame(height: 40.0)
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                    .cornerRadius(10).shadow(radius: 5)
+                    .cornerRadius(10).shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0)
             }
             VStack(alignment: .leading, spacing: 10){
                 Text("Nouveau mot de passe")
@@ -62,7 +62,7 @@ struct ModifierView: View {
                     .padding(20)
                         .frame(height: 40.0)
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                    .cornerRadius(10).shadow(radius: 5)
+                    .cornerRadius(10).shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0)
             }
             VStack(alignment: .leading, spacing: 10){
                 Text("Confirmer votre mot de passe")
@@ -72,7 +72,7 @@ struct ModifierView: View {
                     .padding(20)
                         .frame(height: 40.0)
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                    .cornerRadius(10).shadow(radius: 5)
+                    .cornerRadius(10).shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0)
             }
         }.padding(.bottom, 10)
             
@@ -83,6 +83,7 @@ struct ModifierView: View {
                     self.appState.modifierUtilisateur.toggle()
                 }){
                     Text("Annuler").foregroundColor(Color.white).frame(width: 120.0, height: 40.0).background(Color.blue).cornerRadius(20)
+                        .shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0).shadow(radius: 10)
                 }.shadow(radius: 10)
                 
                 Button(action: {
@@ -131,6 +132,7 @@ struct ModifierView: View {
                     }
                 }){
                     Text("Confirmer").foregroundColor(Color.white).frame(width: 120.0, height: 40.0).background(Color.red).cornerRadius(20)
+                    .shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0).shadow(radius: 10)
                 }.alert(isPresented: self.$ancienMdp, content: {
                   Alert(title: Text("Modification"),
                         message: Text(self.alert),

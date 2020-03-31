@@ -22,14 +22,16 @@ struct CommentaireView: View {
             PostView(post: post,
                  estUnCommentaire: false,
                  aimer: self.post.reactions.contains(self.appState.utilisateur.id),
-                signaler: self.appState.estSignaler(post: post),
+                 signaler: self.appState.estSignaler(postOuComment: post),
                 comment: true, size: 45).padding(.horizontal, 20)
             
             List{
                ForEach(self.appState.commentaires) { commentaire in
-                PostView(commentaire: commentaire, estUnCommentaire: true, aimer: commentaire.reactions.contains(self.appState.utilisateur.id),
-                         signaler: self.appState.estSignaler(post: commentaire),comment: true, size: 30)
-                    
+                PostView(commentaire: commentaire,
+                         estUnCommentaire: true,
+                         aimer: commentaire.reactions.contains(self.appState.utilisateur.id),
+                         signaler: self.appState.estSignaler(postOuComment: commentaire),
+                         comment: true, size: 30)
                }.onDelete(perform: {
                     let index = Array($0)
                     let com = self.appState.commentaires[index[0]]
@@ -45,7 +47,7 @@ struct CommentaireView: View {
             }
             
             HStack{
-                TextView(placeholderText: "Commenter ...", text: self.$commentaire).frame(numLines: 2).cornerRadius(20)
+                TextView(placeholderText: "Commenter ...", text: self.$commentaire).frame(numLines: 2).cornerRadius(20).shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0)
                 BoutonCommenter(commentaire: self.$commentaire, post: self.$post)
             }.padding(.horizontal, 10)
             .offset(y: -self.value)
@@ -81,7 +83,7 @@ struct BoutonCommenter : View {
                 UIApplication.shared.keyWindow?.endEditing(true)
             }){
                 Image(systemName: "tray.and.arrow.up.fill")
-                    .font(.system(size: 25)).foregroundColor(Color.blue)
+                    .font(.system(size: 25)).foregroundColor(Color(red: 93/255, green: 93/255, blue: 187/255))
             }
         }
         

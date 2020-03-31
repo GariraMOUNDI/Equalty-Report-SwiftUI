@@ -16,6 +16,7 @@ class AppState : ObservableObject {
     @Published var commentaires : [Commentaire] = []
     @Published var photos : [String] = []
     @Published var check = Message()
+    @Published var filterLabels = ["Les plus entendus", "Les moins entendus", "Les plus commentés", "Les moins commentés", "Les plus récents", "Les moins récents", "J'ai signalés", "J'ai pas signalés"]
     
     func getPost(){
         let url = URL(string: "http://project-awi-api.herokuapp.com/posts")!
@@ -166,10 +167,11 @@ class AppState : ObservableObject {
                 "createur" :
                     ["_id" : postToModify.createur._id,
                      "pseudo": postToModify.createur.pseudo] ,
-                "texte": postToModify.texte, "id": postToModify.id,
+                "texte": postToModify.texte,
+                "id": postToModify.id,
                 "dateCreation": postToModify.dateCreation,
                 "reactions": postToModify.reactions,
-                "signaler": postToModify.signaler
+                "signaler": serialisable(signaler: postToModify.signaler)
             ]
             
             let finalBody = try! JSONSerialization.data(withJSONObject: body)
@@ -189,7 +191,14 @@ class AppState : ObservableObject {
             //Enregistrement dans la base de données
             let url = URL(string: "http://project-awi-api.herokuapp.com/commentaires/\(commentaireToModify.id)")!
             
-            let body : [String : Any] = ["createur" : ["_id" : commentaireToModify.createur._id, "pseudo": commentaireToModify.createur.pseudo] , "texte": commentaireToModify.texte, "id": commentaireToModify.id, "dateCreation": commentaireToModify.dateCreation, "reactions": commentaireToModify.reactions, "signaler" : commentaireToModify.signaler ]
+            let body : [String : Any] = [
+                "createur" : ["_id" : commentaireToModify.createur._id, "pseudo": commentaireToModify.createur.pseudo] ,
+                "texte": commentaireToModify.texte,
+                "id": commentaireToModify.id,
+                "dateCreation": commentaireToModify.dateCreation,
+                "reactions": commentaireToModify.reactions,
+                "signaler" : serialisable(signaler: commentaireToModify.signaler)
+            ]
             
             let finalBody = try! JSONSerialization.data(withJSONObject: body)
             
@@ -241,23 +250,6 @@ class AppState : ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute:  {
             self.utilisateur = utilisateur
         })
-    }
-    
-    
-    
-    func estSignaler(post: Any) -> Bool{
-        var number : Int
-        if let post = post as? Post {
-            number = post.signaler.count
-        }else{
-            let commentaire = post as! Commentaire
-            number = commentaire.signaler.count
-        }
-        if (number == 0){
-            return false
-        }else{
-            return true
-        }
     }
     
     func signalerPost(postToModify: Any){
@@ -373,5 +365,73 @@ class AppState : ObservableObject {
             photos.append("img\(i)")
         }
     }
+    
+    func filtrerPosts(filtre: String){
+        self.getPost()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            switch filtre {
+            case self.filterLabels[0] :
+                self.posts.sort(by: {$0.reactions.count > $1.reactions.count})
+                break
+            case self.filterLabels[1] :
+                self.posts.sort(by: {$0.reactions.count < $1.reactions.count})
+                break
+            case self.filterLabels[2] :
+                self.posts.sort(by: {$0.numCommentaires > $1.numCommentaires})
+                break
+            case self.filterLabels[3] :
+                self.posts.sort(by: {$0.numCommentaires < $1.numCommentaires})
+                break
+            case self.filterLabels[4] :
+                self.posts.sort(by: {$0.numCommentaires < $1.numCommentaires})
+                break
+            case self.filterLabels[5] :
+                
+                break
+            case self.filterLabels[6] :
+                var newPosts : [Post] = []
+                for post in self.posts {
+                    let signaler = post.signaler.filter({ $0._id == self.utilisateur.id})
+                    if signaler.count != 0 {
+                        newPosts.append(post)
+                    }
+                }
+                self.posts = newPosts
+                break
+            case self.filterLabels[7] :
+                var newPosts : [Post] = []
+                for post in self.posts {
+                    let signaler = post.signaler.filter({ $0._id != self.utilisateur.id})
+                    if signaler.count == post.signaler.count {
+                        newPosts.append(post)
+                    }
+                }
+                self.posts = newPosts
+                break
+            default:
+                return
+            }
+        }
+    }
+    
+    func estSignaler(postOuComment : Any)-> Bool{
+        if let post = postOuComment as? Post {
+            let signaler = post.signaler.filter({ $0._id == self.utilisateur.id })
+            if signaler.count != 0 {
+                return true
+            }else{
+                return false
+            }
+        }else{
+            let commentaire = postOuComment as! Commentaire
+            let signaler = commentaire.signaler.filter({ $0._id == self.utilisateur.id })
+            if signaler.count != 0 {
+                return true
+            }else{
+                return false
+            }
+        }
+    }
 }
+
 

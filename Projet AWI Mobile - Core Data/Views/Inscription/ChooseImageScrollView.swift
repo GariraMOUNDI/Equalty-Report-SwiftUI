@@ -22,7 +22,7 @@ struct ChooseImageScrollView: View {
                     .resizable()
                     .frame(width: 70, height: 70)
                     .cornerRadius(30)
-                    .shadow(radius: 10)
+                    .shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0)
                     ZStack{
                         Circle().frame(width: 30, height: 30).foregroundColor(Color.white).shadow(radius: 10)
                         Image(systemName: "pencil.circle.fill")

@@ -18,7 +18,41 @@ struct PostView: View {
     @State var signaler : Bool
     @State var com : Bool = false
     var comment : Bool = false
-    
+    var couleurGauche : Color {
+        get {
+            if(self.post != nil){
+                if(self.post.createur._id != self.appState.utilisateur.id){
+                    return Color(red: 93/255, green: 93/255, blue: 187/255)
+                }else{
+                    return Color(red: 219/255, green: 221/255, blue: 255/255)
+                }
+            }else{
+                if(self.commentaire.createur._id != self.appState.utilisateur.id){
+                    return Color(red: 93/255, green: 93/255, blue: 187/255)
+                }else{
+                    return Color(red: 219/255, green: 221/255, blue: 255/255)
+                }
+            }
+            
+        }
+    }
+    var couleurDroite : Color {
+        get{
+            if(self.post != nil){
+                if(self.post.createur._id != self.appState.utilisateur.id){
+                    return Color(red: 219/255, green: 221/255, blue: 255/255)
+                }else{
+                    return Color(red: 120/255, green: 93/255, blue: 187/255)
+                }
+            }else{
+                if(self.commentaire.createur._id != self.appState.utilisateur.id){
+                    return Color(red: 219/255, green: 221/255, blue: 255/255)
+                }else{
+                    return Color(red: 120/255, green: 93/255, blue: 187/255)
+                }
+            }
+        }
+    }
     var imgGauche : Bool{
         get{
             if(estUnCommentaire){
@@ -146,12 +180,14 @@ struct PostView: View {
                     Button(action: {}) {
                         Image(systemName: "exclamationmark.triangle").foregroundColor(signaler ? Color.red : Color.blue)
                     }.onTapGesture{
-                        self.signalerPost()
+                        self.signalerPost(texte: "Moi")
                     }
                     Spacer()
                 }
             }
-        }
+        }.padding(5)
+        .background(LinearGradient(gradient: Gradient(colors: [self.couleurGauche, self.couleurDroite]),startPoint: .leading,endPoint: .trailing))
+        .cornerRadius(10)
     }
     
     func aimerPost(){
@@ -178,33 +214,26 @@ struct PostView: View {
         }
     }
     
-    func signalerPost(){
+    func signalerPost(texte : String){
         self.signaler.toggle()
         if(self.estUnCommentaire){
             if(self.signaler){
-                self.commentaire.signaler.append(self.appState.utilisateur.id)
+                self.commentaire.signaler.append(Signaler(_id : self.appState.utilisateur.id, texte: texte))
             }else{
                 self.commentaire.signaler = self.commentaire.signaler.filter({
-                    return $0 != self.appState.utilisateur.id
+                    return $0._id != self.appState.utilisateur.id
                 })
             }
            self.appState.signalerPost(postToModify: self.commentaire!)
         }else{
             if(self.signaler){
-                self.post.signaler.append(self.appState.utilisateur.id)
+                self.post.signaler.append(Signaler(_id : self.appState.utilisateur.id, texte: texte))
             }else{
                 self.post.signaler = self.post.signaler.filter({
-                    return $0 != self.appState.utilisateur.id
+                    return $0._id != self.appState.utilisateur.id
                 })
             }
            self.appState.signalerPost(postToModify: self.post!)
         }
     }
 }
-
-/*struct PostView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostView(post: Post(id: 0, texte: "MOI",createur: "", commentaires:[]), com: true)
-    }
-}
- */

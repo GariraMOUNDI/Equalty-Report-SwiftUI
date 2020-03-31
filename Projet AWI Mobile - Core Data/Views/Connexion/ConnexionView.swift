@@ -10,10 +10,9 @@ import SwiftUI
 
 struct ConnexionView: View {
     var body: some View {
-        
             VStack{
-                LogoView(bottom: 30)
-                    .padding(.top, 70.0)
+                LogoView(width: 250, height: 150, bottom: 10, radius: 40)
+                    .padding(.top, 60.0)
                 FormView(pseudo: "", mdp: "",topButton: 20)
             }
     }

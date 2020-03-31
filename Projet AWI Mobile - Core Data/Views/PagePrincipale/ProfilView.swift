@@ -19,20 +19,21 @@ struct ProfilView: View {
     var body: some View {
         NavigationView {
             ZStack{
-                Image("Flame").resizable().frame(width: 300, height: 300, alignment: .center).cornerRadius(40).opacity(0.3).shadow(radius: 10)
+                LogoView(width: 215, height: 150, bottom: 0, radius: 40).opacity(0.2)
                 VStack {
                     Spacer()
                     if (!self.appState.modifierUtilisateur){
-                        Image(self.appState.utilisateur.data.photo).resizable().frame(width: 100.0, height: 100.0).cornerRadius(20)
+                        Image(self.appState.utilisateur.data.photo).resizable().frame(width: 100.0, height: 100.0).cornerRadius(20).shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0)
                         HStack(spacing: 20.0){
                             VStack(alignment: .leading, spacing: 20.0){
                                 Text("Pseudo : ")
                                     .font(.title)
                                     .fontWeight(.medium)
+                                    .bold()
                                 Text("E-mail : ")
                                     .font(.title)
                                     .fontWeight(.medium)
-                                
+                                    .bold()
                             }
                             VStack(alignment: .leading, spacing: 20.0){
                                 Text(self.appState.utilisateur.data.pseudo).font(.title).fontWeight(.regular)
@@ -43,12 +44,12 @@ struct ProfilView: View {
                         HStack(spacing: 20){
                             Button(action: {
                                 self.alert.toggle()
-                            }){ Text("Supprimer").foregroundColor(Color.white).frame(width: 100, height: 40.0).background(Color.red).cornerRadius(20).shadow(radius: 10)
+                            }){ Text("Supprimer").foregroundColor(Color.white).frame(width: 100, height: 40.0).background(Color.red).cornerRadius(20).shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0).shadow(radius: 10)
                             }
                             
                             Button(action: {
                                 self.appState.modifierUtilisateur.toggle()
-                            }){ Text("Modifier").foregroundColor(Color.white).frame(width: 100, height: 40.0).background(Color.green).cornerRadius(20).shadow(radius: 10)
+                            }){ Text("Modifier").foregroundColor(Color.white).frame(width: 100, height: 40.0).background(Color.green).cornerRadius(20).shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0).shadow(radius: 10)
                             }
                         }
                     }else{
@@ -76,10 +77,3 @@ struct ProfilView: View {
             })
     }
 }
-/*
-struct ProfilView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfilView()
-    }
-}
-*/

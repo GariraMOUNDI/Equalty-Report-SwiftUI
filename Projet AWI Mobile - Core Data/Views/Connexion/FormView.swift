@@ -26,7 +26,7 @@ struct FormView: View {
                     .padding(20)
                         .frame(height: 40.0)
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                    .cornerRadius(10).shadow(radius: 5)
+                        .cornerRadius(10).shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0)
                 }.padding(.bottom)
                 
                 VStack(alignment: .leading, spacing: 10){
@@ -37,9 +37,8 @@ struct FormView: View {
                         .padding(20)
                         .frame(height: 40.0)
                         .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                    .cornerRadius(10).shadow(radius: 5)
+                    .cornerRadius(10).shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0)
                 }
-                
             }.padding(.bottom, topButton)
             
                 Button(action: {
@@ -56,7 +55,7 @@ struct FormView: View {
                     })
                 }){
                     Text("Se connecter").foregroundColor(Color.white).padding(30.0)
-                    .frame(height: 50.0).background(Color.green).cornerRadius(20)
+                    .frame(height: 50.0).background(Color.green).cornerRadius(20).shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0)
             }.alert(isPresented: $connect, content: {
                 Alert(title: Text("Connexion"), message: Text("Pseudo ou Mot de passe incorrect"), dismissButton: .default(Text("Ok"), action: {
                     self.connect.toggle()
@@ -64,7 +63,7 @@ struct FormView: View {
                     }).shadow(radius: 10)
             
             NavigationLink(destination: InscriptionView(pseudo: "", mdp: "", email: "", cmdp: "",topButton: 15)){
-                Text("Pas de compte ? Inscrivez-vous").foregroundColor(Color.blue)
+                Text("Pas de compte ? Inscrivez-vous").foregroundColor(Color(red: 93/255, green: 93/255, blue: 187/255))
             }.padding(.top, 10)
             Spacer()
             

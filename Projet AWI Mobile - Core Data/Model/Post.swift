@@ -15,7 +15,7 @@ class Post : Identifiable, Codable{
     var createur : Createur!
     var numCommentaires : Int = 0
     var dateCreation : String = ""
-    var signaler : [String] = []
+    var signaler : [Signaler] = []
     
     var id : String {   // Pour Identifiable
         get {
@@ -56,11 +56,5 @@ class Post : Identifiable, Codable{
            return dateCreation
         }
     }
-}
-
-struct Createur : Codable {
-    var _id : String = ""
-    var pseudo : String = ""
-    var photo : String = ""
 }
 

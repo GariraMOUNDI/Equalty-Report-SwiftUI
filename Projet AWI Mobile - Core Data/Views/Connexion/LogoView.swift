@@ -9,16 +9,17 @@
 import SwiftUI
 
 struct LogoView: View {
+    var width : CGFloat
+    var height : CGFloat
     var bottom : CGFloat
+    var radius : CGFloat
     var body: some View {
         VStack{
             HStack(spacing: 30.0){
                 Image("Flame")
                     .resizable()
-                    .frame(width: 90, height: 90)
-                    .cornerRadius(30)
-                Text("Equal Report").font(.system(size: 40)).bold()
-            }.padding(.vertical, bottom)
+                    .frame(width: width, height: height).cornerRadius(radius).shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x:0, y:0)
+            }.padding(.bottom, bottom)
         }
     }
 }

@@ -36,8 +36,7 @@ struct RechercherView: View {
                             Text("Veuillez saisir un mot ou une expression que vous avez lu.")
                                 .multilineTextAlignment(.center)
                                 .frame(width: 200.0).foregroundColor(Color.gray)
-                            Image("Flame").resizable()
-                                .frame(width: 200, height: 200, alignment: .center).cornerRadius(40).opacity(0.3).shadow(radius: 10)
+                            LogoView(width: 215, height: 130, bottom: 0, radius: 40).opacity(0.5)
                             Spacer()
                         }.navigationBarTitle("Recherche")
                     }else{
@@ -49,9 +48,9 @@ struct RechercherView: View {
                 .padding(.horizontal, 20.0)
                 .frame(height: 40)
                 .background(Color(red: 211/255, green: 211/255, blue: 211/255, opacity: 1))
-                .cornerRadius(10)
+                .cornerRadius(15)
                 .offset(y: -self.value)
-                .padding(.horizontal, 5)
+                .padding(.horizontal, 5).padding(.bottom, 5).shadow(color: Color(red: 93/255, green: 93/255, blue: 187/255), radius: 10, x: 0, y: 0)
         }.tabItem{
             Image(systemName: "magnifyingglass").font(.system(size: 25))
         }.onAppear{

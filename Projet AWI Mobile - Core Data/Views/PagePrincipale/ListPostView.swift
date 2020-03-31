@@ -23,13 +23,14 @@ struct ListPostView: View {
     var posts : [Post]
     var fram : CGRect!
     @State var alert : Bool = false
+    
     var body: some View {
             List{
                 ForEach(postsToPrint) { post in
                     PostView(post: post,
                              estUnCommentaire: false,
                              aimer: post.reactions.contains(self.appState.utilisateur.id),
-                             signaler: self.appState.estSignaler(post: post),
+                             signaler: self.appState.estSignaler(postOuComment: post),
                              size: 45)
                 }.onDelete(perform: {
                     let index = Array($0)

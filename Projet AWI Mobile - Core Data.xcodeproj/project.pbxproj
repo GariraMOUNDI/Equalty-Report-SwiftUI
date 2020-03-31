@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6126B722242D5A18001812CD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6126B721242D5A18001812CD /* Message.swift */; };
+		6145FD6C243241BF00B0FA26 /* Commun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6145FD6B243241BF00B0FA26 /* Commun.swift */; };
 		61782834242E3C99008DB1DB /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61782833242E3C99008DB1DB /* TextView.swift */; };
 		618D14B52413FDA700C0C069 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D14B42413FDA700C0C069 /* AppDelegate.swift */; };
 		618D14B72413FDA700C0C069 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618D14B62413FDA700C0C069 /* SceneDelegate.swift */; };
@@ -58,6 +59,7 @@
 
 /* Begin PBXFileReference section */
 		6126B721242D5A18001812CD /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		6145FD6B243241BF00B0FA26 /* Commun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commun.swift; sourceTree = "<group>"; };
 		61782833242E3C99008DB1DB /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		618D14B12413FDA700C0C069 /* Projet AWI Mobile - Core Data.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Projet AWI Mobile - Core Data.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		618D14B42413FDA700C0C069 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				61F0FC332415340A003DFA29 /* Donnees.swift */,
 				6126B721242D5A18001812CD /* Message.swift */,
 				61782833242E3C99008DB1DB /* TextView.swift */,
+				6145FD6B243241BF00B0FA26 /* Commun.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 				618D150D2413FF6600C0C069 /* ProfilView.swift in Sources */,
 				618D15142413FF6600C0C069 /* EcrirePostView.swift in Sources */,
 				618D15102413FF6600C0C069 /* RechercherView.swift in Sources */,
+				6145FD6C243241BF00B0FA26 /* Commun.swift in Sources */,
 				618D150C2413FF6600C0C069 /* LogoView.swift in Sources */,
 				618D150B2413FF6600C0C069 /* ConnexionView.swift in Sources */,
 				618D15152413FF6600C0C069 /* CommentaireView.swift in Sources */,

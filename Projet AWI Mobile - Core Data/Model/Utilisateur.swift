@@ -19,10 +19,3 @@ struct Utilisateur : Codable {
     }
 }
 
-struct Data : Codable {
-    var _id : String = ""
-    var pseudo : String = ""
-    var email : String = ""
-    var isAdmin : Bool!
-    var photo : String = ""
-}
