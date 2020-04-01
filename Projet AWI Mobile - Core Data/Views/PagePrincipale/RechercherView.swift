@@ -36,7 +36,7 @@ struct RechercherView: View {
                             Text("Veuillez saisir un mot ou une expression que vous avez lu.")
                                 .multilineTextAlignment(.center)
                                 .frame(width: 200.0).foregroundColor(Color.gray)
-                            LogoView(width: 215, height: 130, bottom: 0, radius: 40).opacity(0.5)
+                            LogoView(width: 246, height: 130, bottom: 0, radius: 40).opacity(0.5)
                             Spacer()
                         }.navigationBarTitle("Recherche")
                     }else{

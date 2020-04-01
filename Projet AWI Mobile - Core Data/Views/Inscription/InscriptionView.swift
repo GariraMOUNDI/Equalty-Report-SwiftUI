@@ -21,7 +21,7 @@ struct InscriptionView: View {
     
     var body: some View {
         VStack{
-            LogoView(width: 150, height: 90, bottom: 15, radius: 25)
+            LogoView(width: 170, height: 90, bottom: 15, radius: 25)
             ChooseImageScrollView(imageChoisi: self.$imageChoisi)
             ScrollView(.vertical){
                 VStack{

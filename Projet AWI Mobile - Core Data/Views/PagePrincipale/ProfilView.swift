@@ -19,7 +19,7 @@ struct ProfilView: View {
     var body: some View {
         NavigationView {
             ZStack{
-                LogoView(width: 215, height: 150, bottom: 0, radius: 40).opacity(0.2)
+                LogoView(width: 284, height: 150, bottom: 0, radius: 40).opacity(0.2)
                 VStack {
                     Spacer()
                     if (!self.appState.modifierUtilisateur){
