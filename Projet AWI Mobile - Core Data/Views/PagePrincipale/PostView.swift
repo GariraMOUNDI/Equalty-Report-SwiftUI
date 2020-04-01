@@ -18,6 +18,7 @@ struct PostView: View {
     @State var signaler : Bool
     @State var com : Bool = false
     @State var postBouton : Bool = false
+    @State var couleurBouton = Color(red: 93/255, green: 93/255, blue: 150/255)
     var comment : Bool = false
     var couleurGauche : Color {
         get {
@@ -141,19 +142,19 @@ struct PostView: View {
                         HStack{
                             if(estUnCommentaire){
                                 if (aimer){
-                                    Image(systemName: "hand.thumbsup.fill").foregroundColor(Color.red)
+                                    Image(systemName: "ear").foregroundColor(Color.red)
                                     Text("\(commentaire.reactions.count)").foregroundColor(Color.red)
                                 }else{
-                                    Image(systemName: "hand.thumbsup").foregroundColor(Color.blue)
-                                    Text("\(commentaire.reactions.count)").foregroundColor(Color.blue)
+                                    Image(systemName: "ear").foregroundColor(self.couleurBouton)
+                                    Text("\(commentaire.reactions.count)").foregroundColor(self.couleurBouton)
                                 }
                             }else{
                                 if (aimer){
-                                    Image(systemName: "hand.thumbsup.fill").foregroundColor(Color.red)
+                                    Image(systemName: "ear").foregroundColor(Color.red)
                                     Text("\(post.reactions.count)").foregroundColor(Color.red)
                                 }else{
-                                    Image(systemName: "hand.thumbsup").foregroundColor(Color.blue)
-                                    Text("\(post.reactions.count)").foregroundColor(Color.blue)
+                                    Image(systemName: "ear").foregroundColor(self.couleurBouton)
+                                    Text("\(post.reactions.count)").foregroundColor(self.couleurBouton)
                                 }
                             }
                         }
@@ -167,19 +168,19 @@ struct PostView: View {
                             self.com = true
                             self.appState.getCommentaires(parentId : self.post.id)
                         }){
-                            Image(systemName: "message.circle").foregroundColor(Color.blue)
+                            Image(systemName: "message.circle").foregroundColor(self.couleurBouton)
                         }.sheet(isPresented: self.$com , onDismiss: {
                             self.com = false
                             self.appState.commentaires = []
                         }, content: {
                             CommentaireView(post: self.post, commentaire: "").environmentObject(self.appState)
                         })
-                        Text("\(self.post.numCommentaires)").foregroundColor(Color.blue)
+                        Text("\(self.post.numCommentaires)").foregroundColor(self.couleurBouton)
                     }
                     
                     Spacer()
                     Button(action: {}) {
-                        Image(systemName: "exclamationmark.triangle").foregroundColor(signaler ? Color.red : Color.blue)
+                        Image(systemName: "exclamationmark.triangle").foregroundColor(signaler ? Color.red : self.couleurBouton)
                     }.onTapGesture{
                         if(self.signaler){
                             self.signaler = false

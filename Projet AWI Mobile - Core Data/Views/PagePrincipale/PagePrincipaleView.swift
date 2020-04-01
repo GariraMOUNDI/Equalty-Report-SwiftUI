@@ -21,7 +21,7 @@ struct PagePrincipaleView: View {
             RechercherView(posts: self.appState.posts).tag(2)
             
             ProfilView(imageChoisi: self.appState.utilisateur.data.photo).tag(3)
-        }
+        }.accentColor(Color(red: 93/255, green: 93/255, blue: 187/255))
     }
 }
 
