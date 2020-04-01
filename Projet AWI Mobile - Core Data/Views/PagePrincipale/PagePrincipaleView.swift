@@ -10,6 +10,7 @@ import SwiftUI
 
 struct PagePrincipaleView: View {
     @EnvironmentObject var appState : AppState
+    
     var body: some View {
         TabView {
             AcceuilView().tabItem{

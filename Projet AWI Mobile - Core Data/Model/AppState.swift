@@ -383,10 +383,10 @@ class AppState : ObservableObject {
                 self.posts.sort(by: {$0.numCommentaires < $1.numCommentaires})
                 break
             case self.filterLabels[4] :
-                self.posts.sort(by: {$0.numCommentaires < $1.numCommentaires})
+                self.posts.sort(by: {$0.interval.0 < $1.interval.0})
                 break
             case self.filterLabels[5] :
-                
+                self.posts.sort(by: {$0.interval.0 > $1.interval.0})
                 break
             case self.filterLabels[6] :
                 var newPosts : [Post] = []

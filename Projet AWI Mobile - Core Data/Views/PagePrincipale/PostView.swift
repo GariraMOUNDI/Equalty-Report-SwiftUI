@@ -18,7 +18,7 @@ struct PostView: View {
     @State var signaler : Bool
     @State var com : Bool = false
     @State var postBouton : Bool = false
-    @State var couleurBouton = Color(red: 93/255, green: 93/255, blue: 150/255)
+    @State var couleurBouton = Color(red: 93/255, green: 93/255, blue: 130/255)
     var comment : Bool = false
     var couleurGauche : Color {
         get {
@@ -35,7 +35,6 @@ struct PostView: View {
                     return Color(red: 219/255, green: 221/255, blue: 255/255)
                 }
             }
-            
         }
     }
     var couleurDroite : Color {
